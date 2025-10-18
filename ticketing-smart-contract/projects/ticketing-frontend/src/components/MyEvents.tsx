@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useWallet } from '@txnlab/use-wallet-react'
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
-import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from '../utils/network/getAlgoClientConfigs'
+import { getAlgodConfigFromViteEnvironment } from '../utils/network/getAlgoClientConfigs'
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
-import { 
-  Calendar, 
-  Ticket, 
-  Coins, 
-  Users, 
-  Clock, 
-  RefreshCw, 
+import {
+  Calendar,
+  Ticket,
+  Coins,
+  Users,
+  Clock,
+  RefreshCw,
   ExternalLink,
   Plus,
   AlertCircle
@@ -60,9 +60,9 @@ const MyEvents: React.FC<MyEventsProps> = ({ onCreateEvent }) => {
     try {
       // Get all assets created by the current user (where they are the manager)
       const accountInfo = await algorand.account.getInformation(activeAddress)
-      
+
       // Filter assets where the user is the manager (organizer)
-      const managedAssets = accountInfo.createdAssets?.filter(asset => 
+      const managedAssets = accountInfo.createdAssets?.filter(asset =>
         asset.params.manager === activeAddress
       ) || []
 
@@ -141,7 +141,7 @@ const MyEvents: React.FC<MyEventsProps> = ({ onCreateEvent }) => {
                 <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
                 Refresh
               </Button>
-              <Button 
+              <Button
                 className="flex items-center gap-2"
                 onClick={onCreateEvent}
               >
@@ -183,7 +183,7 @@ const MyEvents: React.FC<MyEventsProps> = ({ onCreateEvent }) => {
                   <p className="text-gray-600 mb-6">
                     You haven't created any events yet. Create your first ASA-based event!
                   </p>
-                  <Button 
+                  <Button
                     className="flex items-center gap-2"
                     onClick={onCreateEvent}
                   >
