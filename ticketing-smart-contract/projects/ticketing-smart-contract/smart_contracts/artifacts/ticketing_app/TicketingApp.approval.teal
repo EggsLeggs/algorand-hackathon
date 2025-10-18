@@ -3,26 +3,23 @@
 
 // algopy.arc4.ARC4Contract.approval_program() -> uint64:
 main:
+    intcblock 0 8 2 1
+    bytecblock 0x151f7c75 0x
     // smart_contracts/ticketing_app/contract.py:5
     // class TicketingApp(ARC4Contract):
     txn NumAppArgs
-    bz main___algopy_default_create@5
-    pushbytes 0x02bece11 // method "hello(string)string"
-    txna ApplicationArgs 0
-    match main_hello_route@3
-    err
-
-main_hello_route@3:
-    // smart_contracts/ticketing_app/contract.py:6
-    // @abimethod()
+    bz main___algopy_default_create@9
     txn OnCompletion
     !
+    assert // OnCompletion must be NoOp
     txn ApplicationID
-    &&
-    assert // OnCompletion must be NoOp && can only call when not creating
-    b hello
+    assert
+    pushbytess 0x02bece11 0x2fd6ac70 // method "hello(string)string", method "createEvent(string,uint64,uint64,uint64,address)uint64"
+    txna ApplicationArgs 0
+    match hello createEvent
+    err
 
-main___algopy_default_create@5:
+main___algopy_default_create@9:
     txn OnCompletion
     !
     txn ApplicationID
@@ -37,9 +34,9 @@ hello:
     // @abimethod()
     txna ApplicationArgs 1
     dup
-    pushint 0 // 0
+    intc_0 // 0
     extract_uint16
-    pushint 2 // 2
+    intc_2 // 2
     +
     dig 1
     len
@@ -59,9 +56,161 @@ hello:
     extract 6 2
     swap
     concat
-    pushbytes 0x151f7c75
+    bytec_0 // 0x151f7c75
     swap
     concat
     log
-    pushint 1 // 1
+    intc_3 // 1
+    return
+
+
+// smart_contracts.ticketing_app.contract.TicketingApp.createEvent[routing]() -> void:
+createEvent:
+    // smart_contracts/ticketing_app/contract.py:10
+    // @abimethod()
+    txna ApplicationArgs 1
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_2 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    extract 2 0
+    txna ApplicationArgs 2
+    len
+    intc_1 // 8
+    ==
+    assert // invalid number of bytes for uint64
+    txna ApplicationArgs 3
+    len
+    intc_1 // 8
+    ==
+    assert // invalid number of bytes for uint64
+    txna ApplicationArgs 4
+    dup
+    len
+    intc_1 // 8
+    ==
+    assert // invalid number of bytes for uint64
+    btoi
+    txna ApplicationArgs 5
+    dup
+    len
+    pushint 32 // 32
+    ==
+    assert // invalid number of bytes for uint8[32]
+    // smart_contracts/ticketing_app/contract.py:33-56
+    // # Encode event metadata in the note field
+    // # Format: "EVENT_DATA:name|date|price|seats"
+    // # event_data = (
+    // #     Bytes(b"EVENT_DATA:") +
+    // #     Bytes(event_name.encode()) + Bytes(b"|") +
+    // #     Bytes(str(event_date).encode()) + Bytes(b"|") +
+    // #     Bytes(str(ticket_price).encode()) + Bytes(b"|") +
+    // #     Bytes(str(seat_count).encode())
+    // # )
+    // # Create the event ASA with metadata using InnerTxnBuilder
+    // ixtn_result = itxn.AssetConfig(
+    //     total=seat_count,
+    //     decimals=0,  # Each token represents one ticket
+    //     default_frozen=False,
+    //     unit_name="TICKET",
+    //     asset_name=event_name,
+    //     manager=event_organizer,
+    //     reserve=event_organizer,
+    //     freeze=event_organizer,
+    //     clawback=event_organizer,
+    //     url="",  # Could store additional metadata URL here
+    //     metadata_hash=b"",  # Could store hash of additional metadata
+    //     note=b"EVENT_DATA",  # Simple note for now
+    // ).submit()
+    itxn_begin
+    // smart_contracts/ticketing_app/contract.py:55
+    // note=b"EVENT_DATA",  # Simple note for now
+    pushbytes 0x4556454e545f44415441
+    itxn_field Note
+    // smart_contracts/ticketing_app/contract.py:54
+    // metadata_hash=b"",  # Could store hash of additional metadata
+    bytec_1 // 0x
+    itxn_field ConfigAssetMetadataHash
+    // smart_contracts/ticketing_app/contract.py:53
+    // url="",  # Could store additional metadata URL here
+    bytec_1 // ""
+    itxn_field ConfigAssetURL
+    dup
+    itxn_field ConfigAssetClawback
+    dup
+    itxn_field ConfigAssetFreeze
+    dup
+    itxn_field ConfigAssetReserve
+    itxn_field ConfigAssetManager
+    swap
+    itxn_field ConfigAssetName
+    // smart_contracts/ticketing_app/contract.py:47
+    // unit_name="TICKET",
+    pushbytes "TICKET"
+    itxn_field ConfigAssetUnitName
+    // smart_contracts/ticketing_app/contract.py:46
+    // default_frozen=False,
+    intc_0 // 0
+    itxn_field ConfigAssetDefaultFrozen
+    // smart_contracts/ticketing_app/contract.py:45
+    // decimals=0,  # Each token represents one ticket
+    intc_0 // 0
+    itxn_field ConfigAssetDecimals
+    itxn_field ConfigAssetTotal
+    // smart_contracts/ticketing_app/contract.py:33-43
+    // # Encode event metadata in the note field
+    // # Format: "EVENT_DATA:name|date|price|seats"
+    // # event_data = (
+    // #     Bytes(b"EVENT_DATA:") +
+    // #     Bytes(event_name.encode()) + Bytes(b"|") +
+    // #     Bytes(str(event_date).encode()) + Bytes(b"|") +
+    // #     Bytes(str(ticket_price).encode()) + Bytes(b"|") +
+    // #     Bytes(str(seat_count).encode())
+    // # )
+    // # Create the event ASA with metadata using InnerTxnBuilder
+    // ixtn_result = itxn.AssetConfig(
+    pushint 3 // acfg
+    itxn_field TypeEnum
+    intc_0 // 0
+    itxn_field Fee
+    // smart_contracts/ticketing_app/contract.py:33-56
+    // # Encode event metadata in the note field
+    // # Format: "EVENT_DATA:name|date|price|seats"
+    // # event_data = (
+    // #     Bytes(b"EVENT_DATA:") +
+    // #     Bytes(event_name.encode()) + Bytes(b"|") +
+    // #     Bytes(str(event_date).encode()) + Bytes(b"|") +
+    // #     Bytes(str(ticket_price).encode()) + Bytes(b"|") +
+    // #     Bytes(str(seat_count).encode())
+    // # )
+    // # Create the event ASA with metadata using InnerTxnBuilder
+    // ixtn_result = itxn.AssetConfig(
+    //     total=seat_count,
+    //     decimals=0,  # Each token represents one ticket
+    //     default_frozen=False,
+    //     unit_name="TICKET",
+    //     asset_name=event_name,
+    //     manager=event_organizer,
+    //     reserve=event_organizer,
+    //     freeze=event_organizer,
+    //     clawback=event_organizer,
+    //     url="",  # Could store additional metadata URL here
+    //     metadata_hash=b"",  # Could store hash of additional metadata
+    //     note=b"EVENT_DATA",  # Simple note for now
+    // ).submit()
+    itxn_submit
+    itxn CreatedAssetID
+    // smart_contracts/ticketing_app/contract.py:10
+    // @abimethod()
+    itob
+    bytec_0 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_3 // 1
     return

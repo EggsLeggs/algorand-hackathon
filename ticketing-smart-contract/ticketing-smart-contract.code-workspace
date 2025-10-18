@@ -6,6 +6,9 @@
     },
     {
       "path": "projects/ticketing-smart-contract"
+    },
+    {
+      "path": "projects/ticketing-frontend"
     }
   ],
   "settings": {
@@ -24,9 +27,47 @@
   },
   "tasks": {
     "version": "2.0.0",
-    "tasks": []
+    "tasks": [
+      {
+        "label": "Build artifacts (+ LocalNet)",
+        "command": "algokit",
+        "args": ["project", "run", "build"],
+        "options": {
+          "cwd": "${workspaceFolder}"
+        },
+        "dependsOn": "Start AlgoKit LocalNet",
+        "problemMatcher": []
+      },
+      {
+        "label": "Start AlgoKit LocalNet",
+        "command": "algokit",
+        "args": ["localnet", "start"],
+        "type": "shell",
+        "options": {
+          "cwd": "${workspaceFolder}"
+        },
+        "problemMatcher": []
+      }
+    ]
   },
   "launch": {
-    "configurations": []
+    "configurations": [],
+    "compounds": [
+      {
+        "preLaunchTask": "Build artifacts (+ LocalNet)",
+        "name": "Run Frontend (+ LocalNet and Smart Contract)",
+        "configurations": [
+          {
+            "name": "Deploy contracts",
+            "folder": "ticketing-smart-contract"
+          },
+          { "name": "Run dApp", "folder": "ticketing-frontend" }
+        ],
+        "presentation": {
+          "hidden": false,
+          "group": "0. Run workspace"
+        }
+      }
+    ]
   }
-}
+  }
