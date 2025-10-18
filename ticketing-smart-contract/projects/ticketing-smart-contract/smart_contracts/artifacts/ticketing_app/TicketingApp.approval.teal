@@ -3,8 +3,8 @@
 
 // algopy.arc4.ARC4Contract.approval_program() -> uint64:
 main:
-    intcblock 0 8 2 1
-    bytecblock 0x151f7c75 0x
+    intcblock 0 2 8 1
+    bytecblock 0x151f7c75
     // smart_contracts/ticketing_app/contract.py:5
     // class TicketingApp(ARC4Contract):
     txn NumAppArgs
@@ -14,7 +14,7 @@ main:
     assert // OnCompletion must be NoOp
     txn ApplicationID
     assert
-    pushbytess 0x02bece11 0x2fd6ac70 // method "hello(string)string", method "createEvent(string,uint64,uint64,uint64,address)uint64"
+    pushbytess 0x02bece11 0xa8b55eb4 // method "hello(string)string", method "createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64"
     txna ApplicationArgs 0
     match hello createEvent
     err
@@ -30,25 +30,25 @@ main___algopy_default_create@9:
 
 // smart_contracts.ticketing_app.contract.TicketingApp.hello[routing]() -> void:
 hello:
-    // smart_contracts/ticketing_app/contract.py:6
+    // smart_contracts/ticketing_app/contract.py:17
     // @abimethod()
     txna ApplicationArgs 1
     dup
     intc_0 // 0
     extract_uint16
-    intc_2 // 2
+    intc_1 // 2
     +
     dig 1
     len
     ==
     assert // invalid number of bytes for (len+utf8[])
     extract 2 0
-    // smart_contracts/ticketing_app/contract.py:8
+    // smart_contracts/ticketing_app/contract.py:19
     // return "Hello, " + name
     pushbytes "Hello, "
     swap
     concat
-    // smart_contracts/ticketing_app/contract.py:6
+    // smart_contracts/ticketing_app/contract.py:17
     // @abimethod()
     dup
     len
@@ -66,146 +66,222 @@ hello:
 
 // smart_contracts.ticketing_app.contract.TicketingApp.createEvent[routing]() -> void:
 createEvent:
-    // smart_contracts/ticketing_app/contract.py:10
+    // smart_contracts/ticketing_app/contract.py:21
     // @abimethod()
     txna ApplicationArgs 1
     dup
     intc_0 // 0
     extract_uint16
-    intc_2 // 2
+    intc_1 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 2
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 3
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 4
+    len
+    intc_2 // 8
+    ==
+    assert // invalid number of bytes for uint64
+    txna ApplicationArgs 5
+    len
+    intc_2 // 8
+    ==
+    assert // invalid number of bytes for uint64
+    txna ApplicationArgs 6
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 7
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 8
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 9
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 10
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 11
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
     +
     dig 1
     len
     ==
     assert // invalid number of bytes for (len+utf8[])
     extract 2 0
-    txna ApplicationArgs 2
+    txna ApplicationArgs 12
+    dup
+    intc_0 // 0
+    extract_uint16
+    intc_1 // 2
+    +
+    swap
     len
-    intc_1 // 8
     ==
-    assert // invalid number of bytes for uint64
-    txna ApplicationArgs 3
-    len
-    intc_1 // 8
-    ==
-    assert // invalid number of bytes for uint64
-    txna ApplicationArgs 4
+    assert // invalid number of bytes for (len+utf8[])
+    txna ApplicationArgs 13
     dup
     len
-    intc_1 // 8
+    intc_2 // 8
     ==
     assert // invalid number of bytes for uint64
     btoi
-    txna ApplicationArgs 5
-    dup
+    txna ApplicationArgs 14
     len
-    pushint 32 // 32
+    intc_2 // 8
     ==
-    assert // invalid number of bytes for uint8[32]
-    // smart_contracts/ticketing_app/contract.py:33-56
-    // # Encode event metadata in the note field
-    // # Format: "EVENT_DATA:name|date|price|seats"
-    // # event_data = (
-    // #     Bytes(b"EVENT_DATA:") +
-    // #     Bytes(event_name.encode()) + Bytes(b"|") +
-    // #     Bytes(str(event_date).encode()) + Bytes(b"|") +
-    // #     Bytes(str(ticket_price).encode()) + Bytes(b"|") +
-    // #     Bytes(str(seat_count).encode())
-    // # )
-    // # Create the event ASA with metadata using InnerTxnBuilder
+    assert // invalid number of bytes for uint64
+    txna ApplicationArgs 15
+    extract 18 32
+    txna ApplicationArgs 15
+    extract 50 32
+    txna ApplicationArgs 15
+    dup
+    pushint 82 // 82
+    extract_uint16
+    dig 1
+    pushint 84 // 84
+    extract_uint16
+    substring3
+    extract 2 0
+    txna ApplicationArgs 15
+    dup
+    pushint 84 // 84
+    extract_uint16
+    dig 1
+    pushint 94 // 94
+    extract_uint16
+    substring3
+    extract 2 0
+    // smart_contracts/ticketing_app/contract.py:100-114
+    // # Create the event ASA
     // ixtn_result = itxn.AssetConfig(
-    //     total=seat_count,
+    //     total=ticket_supply,
     //     decimals=0,  # Each token represents one ticket
     //     default_frozen=False,
-    //     unit_name="TICKET",
-    //     asset_name=event_name,
-    //     manager=event_organizer,
-    //     reserve=event_organizer,
-    //     freeze=event_organizer,
-    //     clawback=event_organizer,
-    //     url="",  # Could store additional metadata URL here
-    //     metadata_hash=b"",  # Could store hash of additional metadata
-    //     note=b"EVENT_DATA",  # Simple note for now
+    //     unit_name=asa_unit_name,
+    //     asset_name=asa_asset_name,
+    //     manager=issuer_address,
+    //     reserve=treasury_address,
+    //     freeze=issuer_address,
+    //     clawback=issuer_address,
+    //     url=website,
+    //     # metadata_hash omitted - will be None/undefined
+    //     note=b"EVENT_TICKET",
     // ).submit()
     itxn_begin
-    // smart_contracts/ticketing_app/contract.py:55
-    // note=b"EVENT_DATA",  # Simple note for now
-    pushbytes 0x4556454e545f44415441
+    // smart_contracts/ticketing_app/contract.py:112-113
+    // # metadata_hash omitted - will be None/undefined
+    // note=b"EVENT_TICKET",
+    pushbytes 0x4556454e545f5449434b4554
     itxn_field Note
-    // smart_contracts/ticketing_app/contract.py:54
-    // metadata_hash=b"",  # Could store hash of additional metadata
-    bytec_1 // 0x
-    itxn_field ConfigAssetMetadataHash
-    // smart_contracts/ticketing_app/contract.py:53
-    // url="",  # Could store additional metadata URL here
-    bytec_1 // ""
+    uncover 5
     itxn_field ConfigAssetURL
-    dup
+    dig 2
     itxn_field ConfigAssetClawback
-    dup
+    dig 2
     itxn_field ConfigAssetFreeze
-    dup
+    uncover 3
     itxn_field ConfigAssetReserve
+    uncover 2
     itxn_field ConfigAssetManager
-    swap
     itxn_field ConfigAssetName
-    // smart_contracts/ticketing_app/contract.py:47
-    // unit_name="TICKET",
-    pushbytes "TICKET"
     itxn_field ConfigAssetUnitName
-    // smart_contracts/ticketing_app/contract.py:46
+    // smart_contracts/ticketing_app/contract.py:104
     // default_frozen=False,
     intc_0 // 0
     itxn_field ConfigAssetDefaultFrozen
-    // smart_contracts/ticketing_app/contract.py:45
+    // smart_contracts/ticketing_app/contract.py:103
     // decimals=0,  # Each token represents one ticket
     intc_0 // 0
     itxn_field ConfigAssetDecimals
     itxn_field ConfigAssetTotal
-    // smart_contracts/ticketing_app/contract.py:33-43
-    // # Encode event metadata in the note field
-    // # Format: "EVENT_DATA:name|date|price|seats"
-    // # event_data = (
-    // #     Bytes(b"EVENT_DATA:") +
-    // #     Bytes(event_name.encode()) + Bytes(b"|") +
-    // #     Bytes(str(event_date).encode()) + Bytes(b"|") +
-    // #     Bytes(str(ticket_price).encode()) + Bytes(b"|") +
-    // #     Bytes(str(seat_count).encode())
-    // # )
-    // # Create the event ASA with metadata using InnerTxnBuilder
+    // smart_contracts/ticketing_app/contract.py:100-101
+    // # Create the event ASA
     // ixtn_result = itxn.AssetConfig(
     pushint 3 // acfg
     itxn_field TypeEnum
     intc_0 // 0
     itxn_field Fee
-    // smart_contracts/ticketing_app/contract.py:33-56
-    // # Encode event metadata in the note field
-    // # Format: "EVENT_DATA:name|date|price|seats"
-    // # event_data = (
-    // #     Bytes(b"EVENT_DATA:") +
-    // #     Bytes(event_name.encode()) + Bytes(b"|") +
-    // #     Bytes(str(event_date).encode()) + Bytes(b"|") +
-    // #     Bytes(str(ticket_price).encode()) + Bytes(b"|") +
-    // #     Bytes(str(seat_count).encode())
-    // # )
-    // # Create the event ASA with metadata using InnerTxnBuilder
+    // smart_contracts/ticketing_app/contract.py:100-114
+    // # Create the event ASA
     // ixtn_result = itxn.AssetConfig(
-    //     total=seat_count,
+    //     total=ticket_supply,
     //     decimals=0,  # Each token represents one ticket
     //     default_frozen=False,
-    //     unit_name="TICKET",
-    //     asset_name=event_name,
-    //     manager=event_organizer,
-    //     reserve=event_organizer,
-    //     freeze=event_organizer,
-    //     clawback=event_organizer,
-    //     url="",  # Could store additional metadata URL here
-    //     metadata_hash=b"",  # Could store hash of additional metadata
-    //     note=b"EVENT_DATA",  # Simple note for now
+    //     unit_name=asa_unit_name,
+    //     asset_name=asa_asset_name,
+    //     manager=issuer_address,
+    //     reserve=treasury_address,
+    //     freeze=issuer_address,
+    //     clawback=issuer_address,
+    //     url=website,
+    //     # metadata_hash omitted - will be None/undefined
+    //     note=b"EVENT_TICKET",
     // ).submit()
     itxn_submit
     itxn CreatedAssetID
-    // smart_contracts/ticketing_app/contract.py:10
+    // smart_contracts/ticketing_app/contract.py:21
     // @abimethod()
     itob
     bytec_0 // 0x151f7c75

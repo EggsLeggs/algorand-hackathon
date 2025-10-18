@@ -19,6 +19,15 @@ import {
   Eye,
 } from "lucide-react";
 
+// Import contract helpers
+import { TicketingAppFactory } from "@/contracts/TicketingApp";
+import { TicketingAppHelper } from "@/contracts/TicketingAppHelper";
+import { useWallet } from '@txnlab/use-wallet-react';
+import { useSnackbar } from 'notistack';
+import { OnSchemaBreak, OnUpdate } from '@algorandfoundation/algokit-utils/types/app';
+import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from '@/utils/network/getAlgoClientConfigs';
+import { AlgorandClient } from '@algorandfoundation/algokit-utils';
+
 // shadcn/ui
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -66,6 +75,9 @@ interface EventCreatorProps {
 
 export default function EventCreator({ network }: EventCreatorProps) {
   const [step, setStep] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  const { transactionSigner, activeAddress } = useWallet();
 
   const [form, setForm] = useState({
     // Basics
@@ -75,10 +87,10 @@ export default function EventCreator({ network }: EventCreatorProps) {
       "A community‑driven builder day focused on Algorand. Learn, hack, and collect your proof‑of‑participation.",
     coverUrl: "",
     website: "https://example.com",
-    startDate: "",
-    endDate: "",
+    startDate: "2024-03-15T09:00",
+    endDate: "2024-03-15T17:00",
     timezone: "UTC",
-    locationType: "in-person",
+    locationType: "virtual",
     venue: "",
     city: "",
     country: "",
@@ -129,14 +141,86 @@ export default function EventCreator({ network }: EventCreatorProps) {
 
   const reviewJson = useMemo(() => JSON.stringify(form, null, 2), [form]);
 
-  function simulateDeploy() {
-    // Here you would:
-    // 1) Create ASA for ticket using Algorand SDK
-    // 2) Deploy smart contract (ARC-4/teal) for sales + check-in
-    // 3) Store VC issuer config for check-in station
-    // For the demo, just log and fake an ASA id
-    const fakeAsaId = Math.floor(Math.random() * 10_000_000);
-    alert(`Simulated deploy to ${network} — ASA #${fakeAsaId}`);
+  async function deploy() {
+    if (!activeAddress || !transactionSigner) {
+      enqueueSnackbar('Please connect your wallet first', { variant: 'error' });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Validate form data
+      const errors = TicketingAppHelper.validateFormData(form);
+      if (errors.length > 0) {
+        enqueueSnackbar(`Validation errors:\n${errors.join('\n')}`, { variant: 'error' });
+        setLoading(false);
+        return;
+      }
+
+      // Convert form data to contract parameters
+      const contractParams = TicketingAppHelper.formToContractParams(form);
+
+      // Set up Algorand client
+      const algodConfig = getAlgodConfigFromViteEnvironment();
+      const indexerConfig = getIndexerConfigFromViteEnvironment();
+      const algorand = AlgorandClient.fromConfig({
+        algodConfig,
+        indexerConfig,
+      });
+      algorand.setDefaultSigner(transactionSigner);
+
+      // Deploy the contract
+      const factory = new TicketingAppFactory({
+        defaultSender: activeAddress,
+        algorand,
+      });
+
+      const deployResult = await factory
+        .deploy({
+          onSchemaBreak: OnSchemaBreak.AppendApp,
+          onUpdate: OnUpdate.AppendApp,
+        })
+        .catch((e: Error) => {
+          enqueueSnackbar(`Error deploying the contract: ${e.message}`, { variant: 'error' });
+          setLoading(false);
+          return undefined;
+        });
+
+      if (!deployResult) {
+        return;
+      }
+
+      const { appClient } = deployResult;
+
+      // Call createEvent method
+      const response = await appClient.send.createEvent({
+        args: contractParams
+      }).catch((e: Error) => {
+        enqueueSnackbar(`Error creating event: ${e.message}`, { variant: 'error' });
+        setLoading(false);
+        return undefined;
+      });
+
+      if (!response) {
+        return;
+      }
+
+      const asaId = response.return;
+      enqueueSnackbar(
+        `Event created successfully on ${network}!\nASA ID: ${asaId}\n\nYour event is now live with:\n- Ticket ASA created\n- Event data stored on-chain\n- QR check-in enabled`,
+        { variant: 'success' }
+      );
+
+      // Reset form or redirect to event management
+      console.log('Event created with ASA ID:', asaId);
+
+    } catch (error) {
+      console.error('Deployment error:', error);
+      enqueueSnackbar(`Deployment failed: ${error}`, { variant: 'error' });
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -173,6 +257,7 @@ export default function EventCreator({ network }: EventCreatorProps) {
             <Review
               form={form}
               reviewJson={reviewJson}
+              network={network}
               onCopy={() => {
                 navigator.clipboard.writeText(reviewJson);
                 // quick visual confirmation via alert for sandbox environments
@@ -191,8 +276,13 @@ export default function EventCreator({ network }: EventCreatorProps) {
                 Continue
               </Button>
             ) : (
-              <Button onClick={simulateDeploy} className="ml-auto" disabled={!canDeploy}>
-                <ShieldCheck className="h-4 w-4 mr-2" /> Deploy (simulate)
+              <Button onClick={deploy} className="ml-auto" disabled={!canDeploy || loading}>
+                {loading ? (
+                  <span className="loading loading-spinner loading-sm mr-2" />
+                ) : (
+                  <ShieldCheck className="h-4 w-4 mr-2" />
+                )}
+                Deploy Event
               </Button>
             )}
           </div>
@@ -470,7 +560,7 @@ function CheckIn({ form, update }: { form: any; update: (key: string, value: any
   );
 }
 
-function Review({ form, reviewJson, onCopy }: { form: any; reviewJson: string; onCopy: () => void }) {
+function Review({ form, reviewJson, onCopy, network }: { form: any; reviewJson: string; onCopy: () => void; network: string }) {
   return (
     <Card className={`${glass}`}>
       <CardHeader>
