@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import WalletConnect from "./WalletConnect";
 // IMPORTANT: import icons directly from the package so they bundle locally
 // (avoids sandbox/CDN fetch like jsdelivr failing for per-icon paths)
 import {
@@ -44,10 +43,6 @@ const glass =
 // ------------------------------------------------------------
 // Types & constants
 // ------------------------------------------------------------
-const CHAINS = [
-  { id: "mainnet", name: "Algorand MainNet" },
-  { id: "testnet", name: "Algorand TestNet" },
-];
 
 const CURRENCIES = [
   { id: "ALGO", name: "ALGO" },
@@ -65,7 +60,11 @@ const STEPS = [
 // ------------------------------------------------------------
 // Main Component
 // ------------------------------------------------------------
-export default function EventCreator() {
+interface EventCreatorProps {
+  network: string
+}
+
+export default function EventCreator({ network }: EventCreatorProps) {
   const [step, setStep] = useState(0);
 
   const [form, setForm] = useState({
@@ -93,7 +92,6 @@ export default function EventCreator() {
     resaleAllowed: false,
 
     // On-chain
-    network: "testnet",
     treasuryAddress: "",
     issuerAddress: "",
     royaltyBps: 0,
@@ -138,7 +136,7 @@ export default function EventCreator() {
     // 3) Store VC issuer config for check-in station
     // For the demo, just log and fake an ASA id
     const fakeAsaId = Math.floor(Math.random() * 10_000_000);
-    alert(`Simulated deploy to ${form.network} — ASA #${fakeAsaId}`);
+    alert(`Simulated deploy to ${network} — ASA #${fakeAsaId}`);
   }
 
   return (
@@ -147,44 +145,8 @@ export default function EventCreator() {
       <div className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen" />
 
       {/* Header */}
-      <header className="sticky top-0 z-30 backdrop-blur-xl bg-white/40 border-b border-white/30">
-        <div className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-2xl bg-white/60 border border-white/40 grid place-items-center shadow">
-              <Coins className="h-4 w-4" />
-            </div>
-            <div>
-              <div className="text-sm font-semibold tracking-wide">POP • Algorand</div>
-              <div className="text-xs text-muted-foreground">Programmable tickets & VCs</div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Select value={form.network} onValueChange={(v) => update("network", v)}>
-              <SelectTrigger className={`${glass} w-44`}>
-                <SelectValue placeholder="Network" />
-              </SelectTrigger>
-              <SelectContent>
-                {CHAINS.map((c) => (
-                  <SelectItem key={c.id} value={c.id}>
-                    {c.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <WalletConnect />
-          </div>
-        </div>
-
-        <div className="mx-auto max-w-6xl px-6 pb-4">
-          <div className={`${glass} h-2 rounded-full overflow-hidden`}>
-            <motion.div
-              className="h-full bg-gradient-to-r from-white/80 to-white"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ type: "spring", stiffness: 120, damping: 20 }}
-            />
-          </div>
+      <header className="sticky top-0 z-30">
+        <div className="mx-auto max-w-6xl px-6 pt-4">
           <div className="flex gap-2 mt-2">
             {STEPS.map((s, i) => (
               <div
@@ -201,7 +163,7 @@ export default function EventCreator() {
       </header>
 
       {/* Body */}
-      <main className="mx-auto max-w-6xl px-6 py-8 grid lg:grid-cols-3 gap-6">
+      <main className="mx-auto max-w-6xl px-6 py-6 grid lg:grid-cols-3 gap-6">
         <section className="lg:col-span-2 space-y-6">
           {step === 0 && <Basics form={form} update={update} />}
           {step === 1 && <Tickets form={form} update={update} />}
@@ -234,9 +196,6 @@ export default function EventCreator() {
               </Button>
             )}
           </div>
-
-          {/* Lightweight in-app tests for sanity (non-blocking) */}
-          <DevTests form={form} canDeploy={canDeploy} />
         </section>
 
         {/* Live preview */}
@@ -308,7 +267,7 @@ export default function EventCreator() {
 
       {/* Footer */}
       <footer className="mx-auto max-w-6xl px-6 pb-10 text-xs text-muted-foreground">
-        Built for Algorand hackathons • This is a demo UI. Hook up Algorand SDK where marked.
+        Built for Algorand hackathon • This is a demo UI.
       </footer>
     </div>
   );
@@ -522,7 +481,7 @@ function Review({ form, reviewJson, onCopy }: { form: any; reviewJson: string; o
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-          <InfoTile title="Network" value={form.network} />
+          <InfoTile title="Network" value={network} />
           <InfoTile title="Currency" value={`${form.price} ${form.currency}`} />
           <InfoTile title="Supply" value={String(form.ticketSupply)} />
           <InfoTile title="Treasury" value={shorten(form.treasuryAddress)} />
@@ -565,44 +524,4 @@ function shorten(addr: string, n = 6) {
   if (!addr) return "—";
   if (addr.length <= n * 2) return addr;
   return `${addr.slice(0, n)}…${addr.slice(-n)}`;
-}
-
-// ------------------------------------------------------------
-// DevTests: ultra-light inline tests (visual) so we always ship a few checks
-// ------------------------------------------------------------
-function DevTests({ form, canDeploy }: { form: any; canDeploy: boolean }) {
-  const tests = [
-    {
-      name: "Icons bundle locally (no CDN)",
-      pass: !!Calendar && !!Coins && !!CreditCard,
-    },
-    {
-      name: "Initial cannot deploy without required fields",
-      pass: !canDeploy,
-    },
-    {
-      name: "Price is numeric",
-      pass: typeof form.price === "number" && !Number.isNaN(form.price),
-    },
-    {
-      name: "Ticket supply positive",
-      pass: Number(form.ticketSupply) > 0,
-    },
-  ];
-
-  return (
-    <Card className={`${glass}`}>
-      <CardHeader>
-        <CardTitle className="text-sm">Dev checks</CardTitle>
-        <CardDescription className="text-xs">Simple runtime tests to catch regressions quickly.</CardDescription>
-      </CardHeader>
-      <CardContent className="grid sm:grid-cols-2 gap-2">
-        {tests.map((t) => (
-          <div key={t.name} className={`text-xs rounded-xl px-3 py-2 border ${t.pass ? "border-green-300 bg-green-50/50" : "border-red-300 bg-red-50/50"}`}>
-            {t.pass ? "✅" : "❌"} {t.name}
-          </div>
-        ))}
-      </CardContent>
-    </Card>
-  );
 }

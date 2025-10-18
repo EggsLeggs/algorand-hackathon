@@ -3,6 +3,7 @@ import { SnackbarProvider } from 'notistack'
 import { useState } from 'react'
 import EventCreator from './components/EventCreator'
 import MyEvents from './components/MyEvents'
+import NavBar from './components/NavBar'
 import { getAlgodConfigFromViteEnvironment, getKmdConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 import './styles/globals.css'
 
@@ -31,6 +32,7 @@ if (import.meta.env.VITE_ALGOD_NETWORK === 'localnet') {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'create' | 'my-events'>('create')
+  const [network, setNetwork] = useState<string>('testnet')
   const algodConfig = getAlgodConfigFromViteEnvironment()
 
   const walletManager = new WalletManager({
@@ -55,43 +57,11 @@ export default function App() {
       <WalletProvider manager={walletManager}>
         <div className="min-h-screen bg-gray-50">
           {/* Navigation */}
-          <nav className="bg-white shadow-sm border-b">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between h-16">
-                <div className="flex">
-                  <div className="flex-shrink-0 flex items-center">
-                    <h1 className="text-xl font-bold text-gray-900">Algorand Ticketing</h1>
-                  </div>
-                  <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                    <button
-                      onClick={() => setActiveTab('create')}
-                      className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                        activeTab === 'create'
-                          ? 'border-blue-500 text-gray-900'
-                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                      }`}
-                    >
-                      Create Event
-                    </button>
-                    <button
-                      onClick={() => setActiveTab('my-events')}
-                      className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                        activeTab === 'my-events'
-                          ? 'border-blue-500 text-gray-900'
-                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                      }`}
-                    >
-                      My Events
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
+          <NavBar activeTab={activeTab} onTabChange={setActiveTab} network={network} onNetworkChange={setNetwork} />
 
           {/* Content */}
           <main>
-            {activeTab === 'create' && <EventCreator />}
+            {activeTab === 'create' && <EventCreator network={network} />}
             {activeTab === 'my-events' && <MyEvents onCreateEvent={() => setActiveTab('create')} />}
           </main>
         </div>
