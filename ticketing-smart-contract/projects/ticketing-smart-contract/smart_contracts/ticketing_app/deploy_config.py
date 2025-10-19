@@ -44,24 +44,26 @@ def deploy() -> None:
         f"with name={name}, received: {response.abi_return}"
     )
     
-    # Test the createEvent function
-    from smart_contracts.artifacts.ticketing_app.ticketing_app_client import CreateEventArgs
+    # Test the bootstrap function
+    from smart_contracts.artifacts.ticketing_app.ticketing_app_client import BootstrapArgs
     
-    event_name = "Algorand Hackathon 2024"
-    event_date = 1704067200  # Unix timestamp for Jan 1, 2024
-    ticket_price = 1000000  # 1 ALGO in microALGOs
-    seat_count = 100  # 100 tickets available
+    asset_id = 123456  # Example ASA ID
+    price = 1000000  # 1 ALGO in microALGOs
+    start = 1704067200  # Unix timestamp for Jan 1, 2024
+    end = 1706745600  # Unix timestamp for Feb 1, 2024
+    per_wallet_cap = 5  # Max 5 tickets per wallet
     
-    create_event_response = app_client.send.createEvent(
-        args=CreateEventArgs(
-            event_name=event_name,
-            event_date=event_date,
-            ticket_price=ticket_price,
-            seat_count=seat_count,
-            event_organizer=deployer_.address,
+    bootstrap_response = app_client.send.bootstrap(
+        args=BootstrapArgs(
+            asset_id=asset_id,
+            price=price,
+            start=start,
+            end=end,
+            per_wallet_cap=per_wallet_cap,
+            organizer=deployer_.address,
         )
     )
     
     logger.info(
-        f"Created event '{event_name}' with ASA ID: {create_event_response.abi_return}"
+        f"Bootstrapped ticket sale with ASA ID: {asset_id}"
     )

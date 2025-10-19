@@ -32,7 +32,7 @@ if (import.meta.env.VITE_ALGOD_NETWORK === 'localnet') {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'create' | 'my-events'>('create')
-  const [network, setNetwork] = useState<string>('testnet')
+  const [network, setNetwork] = useState<string>('localnet')
   const algodConfig = getAlgodConfigFromViteEnvironment()
 
   const walletManager = new WalletManager({

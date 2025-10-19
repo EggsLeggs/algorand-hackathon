@@ -20,13 +20,9 @@ import {
 } from "lucide-react";
 
 // Import contract helpers
-import { TicketingAppFactory } from "@/contracts/TicketingApp";
-import { TicketingAppHelper } from "@/contracts/TicketingAppHelper";
 import { useWallet } from '@txnlab/use-wallet-react';
 import { useSnackbar } from 'notistack';
-import { OnSchemaBreak, OnUpdate } from '@algorandfoundation/algokit-utils/types/app';
-import { getAlgodConfigFromViteEnvironment, getIndexerConfigFromViteEnvironment } from '@/utils/network/getAlgoClientConfigs';
-import { AlgorandClient } from '@algorandfoundation/algokit-utils';
+import { deployEvent } from '@/services/eventDeployer';
 
 // shadcn/ui
 import { Button } from "@/components/ui/button";
@@ -87,8 +83,8 @@ export default function EventCreator({ network }: EventCreatorProps) {
       "A community‑driven builder day focused on Algorand. Learn, hack, and collect your proof‑of‑participation.",
     coverUrl: "",
     website: "https://example.com",
-    startDate: "2024-03-15T09:00",
-    endDate: "2024-03-15T17:00",
+    startDate: "2026-03-15T09:00",
+    endDate: "2026-03-15T17:00",
     timezone: "UTC",
     locationType: "virtual",
     venue: "",
@@ -109,6 +105,9 @@ export default function EventCreator({ network }: EventCreatorProps) {
     royaltyBps: 0,
     asaUnitName: "POPTIX",
     asaAssetName: "POP Ticket",
+    url: "",
+    metadataHash: "",
+    defaultFrozen: false,
 
     // Check-in & VC
     enableQR: true,
@@ -132,94 +131,93 @@ export default function EventCreator({ network }: EventCreatorProps) {
       !!form.startDate &&
       !!form.endDate &&
       (form.locationType === "virtual" || form.venue.trim().length > 0) &&
-      form.treasuryAddress.trim().length > 0 &&
-      form.issuerAddress.trim().length > 0 &&
       form.ticketSupply > 0 &&
-      form.price >= 0
+      form.price > 0 &&
+      !!activeAddress &&
+      !!transactionSigner
     );
-  }, [form]);
+  }, [form, activeAddress, transactionSigner]);
 
   const reviewJson = useMemo(() => JSON.stringify(form, null, 2), [form]);
 
   async function deploy() {
-    if (!activeAddress || !transactionSigner) {
-      enqueueSnackbar('Please connect your wallet first', { variant: 'error' });
+    // Validate required form fields
+    if (!form.startDate) {
+      enqueueSnackbar('Please select a start date', { variant: 'error' });
       return;
     }
 
-    setLoading(true);
+    if (!form.price || form.price <= 0) {
+      enqueueSnackbar('Please enter a valid ticket price', { variant: 'error' });
+      return;
+    }
 
-    try {
-      // Validate form data
-      const errors = TicketingAppHelper.validateFormData(form);
-      if (errors.length > 0) {
-        enqueueSnackbar(`Validation errors:\n${errors.join('\n')}`, { variant: 'error' });
-        setLoading(false);
-        return;
-      }
+    if (!form.ticketSupply || form.ticketSupply <= 0) {
+      enqueueSnackbar('Please enter a valid ticket supply', { variant: 'error' });
+      return;
+    }
 
-      // Convert form data to contract parameters
-      const contractParams = TicketingAppHelper.formToContractParams(form);
+    if (!form.perWalletLimit || form.perWalletLimit <= 0) {
+      enqueueSnackbar('Please enter a valid per-wallet limit', { variant: 'error' });
+      return;
+    }
 
-      // Set up Algorand client
-      const algodConfig = getAlgodConfigFromViteEnvironment();
-      const indexerConfig = getIndexerConfigFromViteEnvironment();
-      const algorand = AlgorandClient.fromConfig({
-        algodConfig,
-        indexerConfig,
-      });
-      algorand.setDefaultSigner(transactionSigner);
+    // Convert date to Unix timestamp
+    const startDate = new Date(form.startDate);
+    if (isNaN(startDate.getTime())) {
+      enqueueSnackbar('Invalid start date format', { variant: 'error' });
+      return;
+    }
+    const eventDate = Math.floor(startDate.getTime() / 1000);
 
-      // Deploy the contract
-      const factory = new TicketingAppFactory({
-        defaultSender: activeAddress,
-        algorand,
-      });
+    // Validate form.price before conversion
+    if (form.price === undefined || form.price === null || isNaN(form.price) || form.price <= 0) {
+      enqueueSnackbar('Please enter a valid ticket price', { variant: 'error' });
+      return;
+    }
 
-      const deployResult = await factory
-        .deploy({
-          onSchemaBreak: OnSchemaBreak.AppendApp,
-          onUpdate: OnUpdate.AppendApp,
-        })
-        .catch((e: Error) => {
-          enqueueSnackbar(`Error deploying the contract: ${e.message}`, { variant: 'error' });
-          setLoading(false);
-          return undefined;
-        });
+    // Convert price to microALGOs (multiply by 1,000,000)
+    const ticketPrice = Math.floor(form.price * 1000000);
 
-      if (!deployResult) {
-        return;
-      }
+    // Validate converted values
+    if (isNaN(eventDate) || eventDate <= 0) {
+      enqueueSnackbar('Invalid event date', { variant: 'error' });
+      return;
+    }
 
-      const { appClient } = deployResult;
+    if (isNaN(ticketPrice) || ticketPrice <= 0) {
+      enqueueSnackbar('Invalid ticket price conversion', { variant: 'error' });
+      return;
+    }
 
-      // Call createEvent method
-      const response = await appClient.send.createEvent({
-        args: contractParams
-      }).catch((e: Error) => {
-        enqueueSnackbar(`Error creating event: ${e.message}`, { variant: 'error' });
-        setLoading(false);
-        return undefined;
-      });
+    // Additional validation for all numeric fields
+    if (form.ticketSupply === undefined || form.ticketSupply === null || isNaN(form.ticketSupply) || form.ticketSupply <= 0) {
+      enqueueSnackbar('Please enter a valid ticket supply', { variant: 'error' });
+      return;
+    }
 
-      if (!response) {
-        return;
-      }
+    if (form.perWalletLimit === undefined || form.perWalletLimit === null || isNaN(form.perWalletLimit) || form.perWalletLimit <= 0) {
+      enqueueSnackbar('Please enter a valid per-wallet limit', { variant: 'error' });
+      return;
+    }
 
-      const asaId = response.return;
-      enqueueSnackbar(
-        `Event created successfully on ${network}!\nASA ID: ${asaId}\n\nYour event is now live with:\n- Ticket ASA created\n- Event data stored on-chain\n- QR check-in enabled`,
-        { variant: 'success' }
-      );
+    const result = await deployEvent({
+      eventName: form.title,
+      eventDate: eventDate,
+      ticketPrice: ticketPrice,
+      seatCount: form.ticketSupply,
+      perWalletCap: form.perWalletLimit,
+      network,
+      activeAddress: activeAddress || '',
+      transactionSigner: transactionSigner!,
+      onError: (message) => enqueueSnackbar(message, { variant: 'error' }),
+      onSuccess: (message) => enqueueSnackbar(message, { variant: 'success' }),
+      onLoadingChange: setLoading,
+    });
 
+    if (result.success && result.asaId) {
       // Reset form or redirect to event management
-      console.log('Event created with ASA ID:', asaId);
-
-    } catch (error) {
-      console.error('Deployment error:', error);
-      enqueueSnackbar(`Deployment failed: ${error}`, { variant: 'error' });
-    } finally {
-      setLoading(false);
+      console.log('Event created with ASA ID:', result.asaId);
     }
   }
 
@@ -515,6 +513,18 @@ function OnChain({ form, update }: { form: any; update: (key: string, value: any
         </Field>
         <Field label="ASA Asset Name">
           <Input value={form.asaAssetName} onChange={(e) => update("asaAssetName", e.target.value)} className={glass} />
+        </Field>
+        <Field label="Asset URL" hint="Optional URL for asset metadata">
+          <Input value={form.url} onChange={(e) => update("url", e.target.value)} className={glass} />
+        </Field>
+        <Field label="Metadata Hash" hint="Optional hash of asset metadata">
+          <Input value={form.metadataHash} onChange={(e) => update("metadataHash", e.target.value)} className={glass} />
+        </Field>
+        <Field label="Default Frozen" hint="Whether tickets are frozen by default">
+          <div className="flex items-center gap-3">
+            <Switch checked={form.defaultFrozen} onCheckedChange={(v) => update("defaultFrozen", v)} />
+            <span className="text-sm">{form.defaultFrozen ? "Frozen" : "Not Frozen"}</span>
+          </div>
         </Field>
         <Field label="Royalty (bps)" hint="0 for none; example 250 = 2.5%">
           <Input type="number" value={form.royaltyBps} onChange={(e) => update("royaltyBps", Number(e.target.value))} className={glass} />

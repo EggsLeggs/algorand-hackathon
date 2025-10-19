@@ -6,6 +6,7 @@ import { Coins } from 'lucide-react'
 const CHAINS = [
   { id: "mainnet", name: "Algorand MainNet" },
   { id: "testnet", name: "Algorand TestNet" },
+  { id: "localnet", name: "Algorand LocalNet" },
 ]
 
 interface NavBarProps {

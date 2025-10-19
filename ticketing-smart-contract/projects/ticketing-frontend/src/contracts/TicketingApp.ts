@@ -24,7 +24,7 @@ import { SendParams, SendSingleTransactionResult, SendAtomicTransactionComposerR
 import { Address, encodeAddress, modelsv2, OnApplicationComplete, Transaction, TransactionSigner } from 'algosdk'
 import SimulateResponse = modelsv2.SimulateResponse
 
-export const APP_SPEC: Arc56Contract = {"name":"TicketingApp","structs":{},"methods":[{"name":"hello","args":[{"type":"string","name":"name"}],"returns":{"type":"string"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"events":[],"recommendations":{}},{"name":"createEvent","args":[{"type":"string","name":"title","desc":"Event title"},{"type":"string","name":"subtitle","desc":"Event subtitle"},{"type":"string","name":"description","desc":"Event description"},{"type":"uint64","name":"start_date","desc":"Unix timestamp of event start"},{"type":"uint64","name":"end_date","desc":"Unix timestamp of event end"},{"type":"string","name":"timezone","desc":"Event timezone"},{"type":"string","name":"location_type","desc":"Type of event (in-person, virtual, hybrid)"},{"type":"string","name":"venue","desc":"Venue name (if applicable)"},{"type":"string","name":"city","desc":"City name"},{"type":"string","name":"country","desc":"Country name"},{"type":"string","name":"website","desc":"Event website URL"},{"type":"string","name":"ticket_name","desc":"Name of the ticket type"},{"type":"uint64","name":"ticket_supply","desc":"Total number of tickets to mint"},{"type":"uint64","name":"price","desc":"Price per ticket in microALGOs"},{"type":"string","name":"currency","desc":"Currency type (ALGO/USDC)"},{"type":"uint64","name":"per_wallet_limit","desc":"Maximum tickets per wallet"},{"type":"uint64","name":"resale_allowed","desc":"Whether resale is allowed (0/1)"},{"type":"address","name":"treasury_address","desc":"Address to receive ticket revenue"},{"type":"address","name":"issuer_address","desc":"Address that manages the event"},{"type":"string","name":"asa_unit_name","desc":"Unit name for the ASA"},{"type":"string","name":"asa_asset_name","desc":"Asset name for the ASA"},{"type":"uint64","name":"royalty_bps","desc":"Royalty in basis points"},{"type":"string","name":"vc_issuer_did","desc":"DID for VC issuer"},{"type":"string","name":"vc_schema_url","desc":"URL for VC schema"},{"type":"uint64","name":"enable_qr","desc":"Whether QR check-in is enabled (0/1)"},{"type":"uint64","name":"data_minimised","desc":"Whether to use data minimization (0/1)"}],"returns":{"type":"uint64","desc":"The created event ASA ID"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Create a new event by minting an ASA and storing event data in global state.","events":[],"recommendations":{}}],"arcs":[22,28],"networks":{},"state":{"schema":{"global":{"ints":0,"bytes":0},"local":{"ints":0,"bytes":0}},"keys":{"global":{},"local":{},"box":{}},"maps":{"global":{},"local":{},"box":{}}},"bareActions":{"create":["NoOp"],"call":[]},"sourceInfo":{"approval":{"sourceInfo":[{"pc":[22],"errorMessage":"OnCompletion must be NoOp"},{"pc":[55],"errorMessage":"OnCompletion must be NoOp && can only call when creating"},{"pc":[68,108,120,132,158,170,182,194,206,219,234],"errorMessage":"invalid number of bytes for (len+utf8[])"},{"pc":[139,146,242,250],"errorMessage":"invalid number of bytes for uint64"}],"pcOffsetMethod":"none"},"clear":{"sourceInfo":[],"pcOffsetMethod":"none"}},"source":{"approval":"I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIGludGNibG9jayAwIDIgOCAxCiAgICBieXRlY2Jsb2NrIDB4MTUxZjdjNzUKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjUKICAgIC8vIGNsYXNzIFRpY2tldGluZ0FwcChBUkM0Q29udHJhY3QpOgogICAgdHhuIE51bUFwcEFyZ3MKICAgIGJ6IG1haW5fX19hbGdvcHlfZGVmYXVsdF9jcmVhdGVAOQogICAgdHhuIE9uQ29tcGxldGlvbgogICAgIQogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBtdXN0IGJlIE5vT3AKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICBhc3NlcnQKICAgIHB1c2hieXRlc3MgMHgwMmJlY2UxMSAweGE4YjU1ZWI0IC8vIG1ldGhvZCAiaGVsbG8oc3RyaW5nKXN0cmluZyIsIG1ldGhvZCAiY3JlYXRlRXZlbnQoc3RyaW5nLHN0cmluZyxzdHJpbmcsdWludDY0LHVpbnQ2NCxzdHJpbmcsc3RyaW5nLHN0cmluZyxzdHJpbmcsc3RyaW5nLHN0cmluZyxzdHJpbmcsdWludDY0LHVpbnQ2NCxzdHJpbmcsdWludDY0LHVpbnQ2NCxhZGRyZXNzLGFkZHJlc3Msc3RyaW5nLHN0cmluZyx1aW50NjQsc3RyaW5nLHN0cmluZyx1aW50NjQsdWludDY0KXVpbnQ2NCIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIGhlbGxvIGNyZWF0ZUV2ZW50CiAgICBlcnIKCm1haW5fX19hbGdvcHlfZGVmYXVsdF9jcmVhdGVAOToKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICAmJgogICAgcmV0dXJuIC8vIG9uIGVycm9yOiBPbkNvbXBsZXRpb24gbXVzdCBiZSBOb09wICYmIGNhbiBvbmx5IGNhbGwgd2hlbiBjcmVhdGluZwoKCi8vIHNtYXJ0X2NvbnRyYWN0cy50aWNrZXRpbmdfYXBwLmNvbnRyYWN0LlRpY2tldGluZ0FwcC5oZWxsb1tyb3V0aW5nXSgpIC0+IHZvaWQ6CmhlbGxvOgogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6MTcKICAgIC8vIEBhYmltZXRob2QoKQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZHVwCiAgICBpbnRjXzAgLy8gMAogICAgZXh0cmFjdF91aW50MTYKICAgIGludGNfMSAvLyAyCiAgICArCiAgICBkaWcgMQogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciAobGVuK3V0ZjhbXSkKICAgIGV4dHJhY3QgMiAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weToxOQogICAgLy8gcmV0dXJuICJIZWxsbywgIiArIG5hbWUKICAgIHB1c2hieXRlcyAiSGVsbG8sICIKICAgIHN3YXAKICAgIGNvbmNhdAogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6MTcKICAgIC8vIEBhYmltZXRob2QoKQogICAgZHVwCiAgICBsZW4KICAgIGl0b2IKICAgIGV4dHJhY3QgNiAyCiAgICBzd2FwCiAgICBjb25jYXQKICAgIGJ5dGVjXzAgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMyAvLyAxCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMudGlja2V0aW5nX2FwcC5jb250cmFjdC5UaWNrZXRpbmdBcHAuY3JlYXRlRXZlbnRbcm91dGluZ10oKSAtPiB2b2lkOgpjcmVhdGVFdmVudDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjIxCiAgICAvLyBAYWJpbWV0aG9kKCkKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2CiAgICBpbnRjXzEgLy8gMgogICAgKwogICAgc3dhcAogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciAobGVuK3V0ZjhbXSkKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2CiAgICBpbnRjXzEgLy8gMgogICAgKwogICAgc3dhcAogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciAobGVuK3V0ZjhbXSkKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2CiAgICBpbnRjXzEgLy8gMgogICAgKwogICAgc3dhcAogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciAobGVuK3V0ZjhbXSkKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDQKICAgIGxlbgogICAgaW50Y18yIC8vIDgKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIHVpbnQ2NAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNQogICAgbGVuCiAgICBpbnRjXzIgLy8gOAogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgdWludDY0CiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyA2CiAgICBkdXAKICAgIGludGNfMCAvLyAwCiAgICBleHRyYWN0X3VpbnQxNgogICAgaW50Y18xIC8vIDIKICAgICsKICAgIHN3YXAKICAgIGxlbgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgKGxlbit1dGY4W10pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyA3CiAgICBkdXAKICAgIGludGNfMCAvLyAwCiAgICBleHRyYWN0X3VpbnQxNgogICAgaW50Y18xIC8vIDIKICAgICsKICAgIHN3YXAKICAgIGxlbgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgKGxlbit1dGY4W10pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyA4CiAgICBkdXAKICAgIGludGNfMCAvLyAwCiAgICBleHRyYWN0X3VpbnQxNgogICAgaW50Y18xIC8vIDIKICAgICsKICAgIHN3YXAKICAgIGxlbgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgKGxlbit1dGY4W10pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyA5CiAgICBkdXAKICAgIGludGNfMCAvLyAwCiAgICBleHRyYWN0X3VpbnQxNgogICAgaW50Y18xIC8vIDIKICAgICsKICAgIHN3YXAKICAgIGxlbgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgKGxlbit1dGY4W10pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxMAogICAgZHVwCiAgICBpbnRjXzAgLy8gMAogICAgZXh0cmFjdF91aW50MTYKICAgIGludGNfMSAvLyAyCiAgICArCiAgICBzd2FwCiAgICBsZW4KICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIChsZW4rdXRmOFtdKQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMTEKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2CiAgICBpbnRjXzEgLy8gMgogICAgKwogICAgZGlnIDEKICAgIGxlbgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgKGxlbit1dGY4W10pCiAgICBleHRyYWN0IDIgMAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMTIKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2CiAgICBpbnRjXzEgLy8gMgogICAgKwogICAgc3dhcAogICAgbGVuCiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciAobGVuK3V0ZjhbXSkKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEzCiAgICBkdXAKICAgIGxlbgogICAgaW50Y18yIC8vIDgKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIHVpbnQ2NAogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMTQKICAgIGxlbgogICAgaW50Y18yIC8vIDgKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIHVpbnQ2NAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMTUKICAgIGV4dHJhY3QgMTggMzIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDE1CiAgICBleHRyYWN0IDUwIDMyCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxNQogICAgZHVwCiAgICBwdXNoaW50IDgyIC8vIDgyCiAgICBleHRyYWN0X3VpbnQxNgogICAgZGlnIDEKICAgIHB1c2hpbnQgODQgLy8gODQKICAgIGV4dHJhY3RfdWludDE2CiAgICBzdWJzdHJpbmczCiAgICBleHRyYWN0IDIgMAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMTUKICAgIGR1cAogICAgcHVzaGludCA4NCAvLyA4NAogICAgZXh0cmFjdF91aW50MTYKICAgIGRpZyAxCiAgICBwdXNoaW50IDk0IC8vIDk0CiAgICBleHRyYWN0X3VpbnQxNgogICAgc3Vic3RyaW5nMwogICAgZXh0cmFjdCAyIDAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjEwMC0xMTQKICAgIC8vICMgQ3JlYXRlIHRoZSBldmVudCBBU0EKICAgIC8vIGl4dG5fcmVzdWx0ID0gaXR4bi5Bc3NldENvbmZpZygKICAgIC8vICAgICB0b3RhbD10aWNrZXRfc3VwcGx5LAogICAgLy8gICAgIGRlY2ltYWxzPTAsICAjIEVhY2ggdG9rZW4gcmVwcmVzZW50cyBvbmUgdGlja2V0CiAgICAvLyAgICAgZGVmYXVsdF9mcm96ZW49RmFsc2UsCiAgICAvLyAgICAgdW5pdF9uYW1lPWFzYV91bml0X25hbWUsCiAgICAvLyAgICAgYXNzZXRfbmFtZT1hc2FfYXNzZXRfbmFtZSwKICAgIC8vICAgICBtYW5hZ2VyPWlzc3Vlcl9hZGRyZXNzLAogICAgLy8gICAgIHJlc2VydmU9dHJlYXN1cnlfYWRkcmVzcywKICAgIC8vICAgICBmcmVlemU9aXNzdWVyX2FkZHJlc3MsCiAgICAvLyAgICAgY2xhd2JhY2s9aXNzdWVyX2FkZHJlc3MsCiAgICAvLyAgICAgdXJsPXdlYnNpdGUsCiAgICAvLyAgICAgIyBtZXRhZGF0YV9oYXNoIG9taXR0ZWQgLSB3aWxsIGJlIE5vbmUvdW5kZWZpbmVkCiAgICAvLyAgICAgbm90ZT1iIkVWRU5UX1RJQ0tFVCIsCiAgICAvLyApLnN1Ym1pdCgpCiAgICBpdHhuX2JlZ2luCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weToxMTItMTEzCiAgICAvLyAjIG1ldGFkYXRhX2hhc2ggb21pdHRlZCAtIHdpbGwgYmUgTm9uZS91bmRlZmluZWQKICAgIC8vIG5vdGU9YiJFVkVOVF9USUNLRVQiLAogICAgcHVzaGJ5dGVzIDB4NDU1NjQ1NGU1NDVmNTQ0OTQzNGI0NTU0CiAgICBpdHhuX2ZpZWxkIE5vdGUKICAgIHVuY292ZXIgNQogICAgaXR4bl9maWVsZCBDb25maWdBc3NldFVSTAogICAgZGlnIDIKICAgIGl0eG5fZmllbGQgQ29uZmlnQXNzZXRDbGF3YmFjawogICAgZGlnIDIKICAgIGl0eG5fZmllbGQgQ29uZmlnQXNzZXRGcmVlemUKICAgIHVuY292ZXIgMwogICAgaXR4bl9maWVsZCBDb25maWdBc3NldFJlc2VydmUKICAgIHVuY292ZXIgMgogICAgaXR4bl9maWVsZCBDb25maWdBc3NldE1hbmFnZXIKICAgIGl0eG5fZmllbGQgQ29uZmlnQXNzZXROYW1lCiAgICBpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0VW5pdE5hbWUKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjEwNAogICAgLy8gZGVmYXVsdF9mcm96ZW49RmFsc2UsCiAgICBpbnRjXzAgLy8gMAogICAgaXR4bl9maWVsZCBDb25maWdBc3NldERlZmF1bHRGcm96ZW4KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjEwMwogICAgLy8gZGVjaW1hbHM9MCwgICMgRWFjaCB0b2tlbiByZXByZXNlbnRzIG9uZSB0aWNrZXQKICAgIGludGNfMCAvLyAwCiAgICBpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RGVjaW1hbHMKICAgIGl0eG5fZmllbGQgQ29uZmlnQXNzZXRUb3RhbAogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6MTAwLTEwMQogICAgLy8gIyBDcmVhdGUgdGhlIGV2ZW50IEFTQQogICAgLy8gaXh0bl9yZXN1bHQgPSBpdHhuLkFzc2V0Q29uZmlnKAogICAgcHVzaGludCAzIC8vIGFjZmcKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIGludGNfMCAvLyAwCiAgICBpdHhuX2ZpZWxkIEZlZQogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6MTAwLTExNAogICAgLy8gIyBDcmVhdGUgdGhlIGV2ZW50IEFTQQogICAgLy8gaXh0bl9yZXN1bHQgPSBpdHhuLkFzc2V0Q29uZmlnKAogICAgLy8gICAgIHRvdGFsPXRpY2tldF9zdXBwbHksCiAgICAvLyAgICAgZGVjaW1hbHM9MCwgICMgRWFjaCB0b2tlbiByZXByZXNlbnRzIG9uZSB0aWNrZXQKICAgIC8vICAgICBkZWZhdWx0X2Zyb3plbj1GYWxzZSwKICAgIC8vICAgICB1bml0X25hbWU9YXNhX3VuaXRfbmFtZSwKICAgIC8vICAgICBhc3NldF9uYW1lPWFzYV9hc3NldF9uYW1lLAogICAgLy8gICAgIG1hbmFnZXI9aXNzdWVyX2FkZHJlc3MsCiAgICAvLyAgICAgcmVzZXJ2ZT10cmVhc3VyeV9hZGRyZXNzLAogICAgLy8gICAgIGZyZWV6ZT1pc3N1ZXJfYWRkcmVzcywKICAgIC8vICAgICBjbGF3YmFjaz1pc3N1ZXJfYWRkcmVzcywKICAgIC8vICAgICB1cmw9d2Vic2l0ZSwKICAgIC8vICAgICAjIG1ldGFkYXRhX2hhc2ggb21pdHRlZCAtIHdpbGwgYmUgTm9uZS91bmRlZmluZWQKICAgIC8vICAgICBub3RlPWIiRVZFTlRfVElDS0VUIiwKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fc3VibWl0CiAgICBpdHhuIENyZWF0ZWRBc3NldElECiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weToyMQogICAgLy8gQGFiaW1ldGhvZCgpCiAgICBpdG9iCiAgICBieXRlY18wIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzMgLy8gMQogICAgcmV0dXJuCg==","clear":"I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"},"byteCode":{"approval":"CyAEAAIIASYBBBUffHUxG0EAHTEZFEQxGESCAgQCvs4RBKi1XrQ2GgCOAgAJADIAMRkUMRgUEEM2GgFJIlkjCEsBFRJEVwIAgAdIZWxsbywgTFBJFRZXBgJMUChMULAlQzYaAUkiWSMITBUSRDYaAkkiWSMITBUSRDYaA0kiWSMITBUSRDYaBBUkEkQ2GgUVJBJENhoGSSJZIwhMFRJENhoHSSJZIwhMFRJENhoISSJZIwhMFRJENhoJSSJZIwhMFRJENhoKSSJZIwhMFRJENhoLSSJZIwhLARUSRFcCADYaDEkiWSMITBUSRDYaDUkVJBJEFzYaDhUkEkQ2Gg9XEiA2Gg9XMiA2Gg9JgVJZSwGBVFlSVwIANhoPSYFUWUsBgV5ZUlcCALGADEVWRU5UX1RJQ0tFVLIFTwWyJ0sCsixLArIrTwOyKk8CsimyJrIlIrIkIrIjsiKBA7IQIrIBs7Q8FihMULAlQw==","clear":"C4EBQw=="},"compilerInfo":{"compiler":"puya","compilerVersion":{"major":5,"minor":2,"patch":0}},"events":[],"templateVariables":{}} as unknown as Arc56Contract
+export const APP_SPEC: Arc56Contract = {"name":"TicketingApp","structs":{},"methods":[{"name":"bootstrap","args":[{"type":"uint64","name":"asset_id"},{"type":"uint64","name":"price"},{"type":"uint64","name":"start"},{"type":"uint64","name":"end"},{"type":"uint64","name":"per_wallet_cap"},{"type":"address","name":"organizer"}],"returns":{"type":"void"},"actions":{"create":["NoOp"],"call":[]},"readonly":false,"desc":"Bootstrap the ticket sale with ASA and sale parameters.","events":[],"recommendations":{}},{"name":"buy","args":[{"type":"uint64","name":"qty"},{"type":"address","name":"buyer"}],"returns":{"type":"uint64"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Buy tickets by sending ALGO payment.","events":[],"recommendations":{}},{"name":"withdraw","args":[],"returns":{"type":"void"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Withdraw proceeds to organizer.","events":[],"recommendations":{}},{"name":"get_sale_info","args":[],"returns":{"type":"(uint64,uint64,uint64,uint64,address,uint64,uint64)"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Get sale information.","events":[],"recommendations":{}},{"name":"get_purchased","args":[{"type":"address","name":"buyer"}],"returns":{"type":"uint64"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"Get number of tickets purchased by a specific buyer.","events":[],"recommendations":{}},{"name":"hello","args":[{"type":"string","name":"name"}],"returns":{"type":"string"},"actions":{"create":[],"call":["NoOp"]},"readonly":false,"desc":"A simple hello world method for testing.","events":[],"recommendations":{}}],"arcs":[22,28],"desc":"A ticketing smart contract that handles ticket sales for pre-created ASAs.","networks":{},"state":{"schema":{"global":{"ints":6,"bytes":1},"local":{"ints":1,"bytes":0}},"keys":{"global":{"asset_id":{"keyType":"AVMString","valueType":"AVMUint64","key":"YXNzZXRfaWQ="},"unit_price":{"keyType":"AVMString","valueType":"AVMUint64","key":"dW5pdF9wcmljZQ=="},"sale_start":{"keyType":"AVMString","valueType":"AVMUint64","key":"c2FsZV9zdGFydA=="},"sale_end":{"keyType":"AVMString","valueType":"AVMUint64","key":"c2FsZV9lbmQ="},"organizer":{"keyType":"AVMString","valueType":"address","key":"b3JnYW5pemVy"},"per_cap":{"keyType":"AVMString","valueType":"AVMUint64","key":"cGVyX2NhcA=="},"proceeds":{"keyType":"AVMString","valueType":"AVMUint64","key":"cHJvY2VlZHM="}},"local":{"purchased":{"keyType":"AVMString","valueType":"AVMUint64","key":"cHVyY2hhc2Vk"}},"box":{}},"maps":{"global":{},"local":{},"box":{}}},"bareActions":{"create":[],"call":[]},"sourceInfo":{"approval":{"sourceInfo":[{"pc":[94],"errorMessage":"OnCompletion must be NoOp"},{"pc":[215],"errorMessage":"already bootstrapped"},{"pc":[313],"errorMessage":"cap"},{"pc":[213,341,415],"errorMessage":"check self.asset_id exists"},{"pc":[345,382,398,434],"errorMessage":"check self.organizer exists"},{"pc":[309,439],"errorMessage":"check self.per_cap exists"},{"pc":[324,388,443],"errorMessage":"check self.proceeds exists"},{"pc":[301,487],"errorMessage":"check self.purchased exists for account"},{"pc":[279,430],"errorMessage":"check self.sale_end exists"},{"pc":[270,425],"errorMessage":"check self.sale_start exists"},{"pc":[329,420],"errorMessage":"check self.unit_price exists"},{"pc":[508],"errorMessage":"invalid number of bytes for (len+utf8[])"},{"pc":[164,173,182,191,200,253],"errorMessage":"invalid number of bytes for uint64"},{"pc":[209,262,482],"errorMessage":"invalid number of bytes for uint8[32]"},{"pc":[390],"errorMessage":"nothing to withdraw"},{"pc":[384],"errorMessage":"only organizer"},{"pc":[291],"errorMessage":"qty"},{"pc":[287],"errorMessage":"sale closed"}],"pcOffsetMethod":"none"},"clear":{"sourceInfo":[],"pcOffsetMethod":"none"}},"source":{"approval":"I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuYXBwcm92YWxfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIGludGNibG9jayAwIDEgOCAzMgogICAgYnl0ZWNibG9jayAib3JnYW5pemVyIiAicHJvY2VlZHMiICJhc3NldF9pZCIgMHgxNTFmN2M3NSAidW5pdF9wcmljZSIgInNhbGVfc3RhcnQiICJzYWxlX2VuZCIgInBlcl9jYXAiICJwdXJjaGFzZWQiCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTo1CiAgICAvLyBjbGFzcyBUaWNrZXRpbmdBcHAoQVJDNENvbnRyYWN0KToKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIGFzc2VydCAvLyBPbkNvbXBsZXRpb24gbXVzdCBiZSBOb09wCiAgICB0eG4gQXBwbGljYXRpb25JRAogICAgYnogbWFpbl9jcmVhdGVfTm9PcEAxMQogICAgcHVzaGJ5dGVzcyAweDE2NThkYjUyIDB4YjczNTVmZDEgMHhiZTBkZjUzYyAweDAwY2ZjZTY1IDB4MDJiZWNlMTEgLy8gbWV0aG9kICJidXkodWludDY0LGFkZHJlc3MpdWludDY0IiwgbWV0aG9kICJ3aXRoZHJhdygpdm9pZCIsIG1ldGhvZCAiZ2V0X3NhbGVfaW5mbygpKHVpbnQ2NCx1aW50NjQsdWludDY0LHVpbnQ2NCxhZGRyZXNzLHVpbnQ2NCx1aW50NjQpIiwgbWV0aG9kICJnZXRfcHVyY2hhc2VkKGFkZHJlc3MpdWludDY0IiwgbWV0aG9kICJoZWxsbyhzdHJpbmcpc3RyaW5nIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggYnV5IHdpdGhkcmF3IGdldF9zYWxlX2luZm8gZ2V0X3B1cmNoYXNlZCBoZWxsbwogICAgZXJyCgptYWluX2NyZWF0ZV9Ob09wQDExOgogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NQogICAgLy8gY2xhc3MgVGlja2V0aW5nQXBwKEFSQzRDb250cmFjdCk6CiAgICBwdXNoYnl0ZXMgMHg3ODY1NjA5MyAvLyBtZXRob2QgImJvb3RzdHJhcCh1aW50NjQsdWludDY0LHVpbnQ2NCx1aW50NjQsdWludDY0LGFkZHJlc3Mpdm9pZCIKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDAKICAgIG1hdGNoIGJvb3RzdHJhcAogICAgZXJyCgoKLy8gc21hcnRfY29udHJhY3RzLnRpY2tldGluZ19hcHAuY29udHJhY3QuVGlja2V0aW5nQXBwLmJvb3RzdHJhcFtyb3V0aW5nXSgpIC0+IHZvaWQ6CmJvb3RzdHJhcDoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjIxCiAgICAvLyBAYWJpbWV0aG9kKGNyZWF0ZT0icmVxdWlyZSIpCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyAxCiAgICBkdXAKICAgIGxlbgogICAgaW50Y18yIC8vIDgKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIHVpbnQ2NAogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgogICAgZHVwCiAgICBsZW4KICAgIGludGNfMiAvLyA4CiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciB1aW50NjQKICAgIGJ0b2kKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDMKICAgIGR1cAogICAgbGVuCiAgICBpbnRjXzIgLy8gOAogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgdWludDY0CiAgICBidG9pCiAgICB0eG5hIEFwcGxpY2F0aW9uQXJncyA0CiAgICBkdXAKICAgIGxlbgogICAgaW50Y18yIC8vIDgKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIHVpbnQ2NAogICAgYnRvaQogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgNQogICAgZHVwCiAgICBsZW4KICAgIGludGNfMiAvLyA4CiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciB1aW50NjQKICAgIGJ0b2kKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDYKICAgIGR1cAogICAgbGVuCiAgICBpbnRjXzMgLy8gMzIKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIHVpbnQ4WzMyXQogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6MzAKICAgIC8vIGFzc2VydCBzZWxmLmFzc2V0X2lkLnZhbHVlID09IDAsICJhbHJlYWR5IGJvb3RzdHJhcHBlZCIKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18yIC8vICJhc3NldF9pZCIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5hc3NldF9pZCBleGlzdHMKICAgICEKICAgIGFzc2VydCAvLyBhbHJlYWR5IGJvb3RzdHJhcHBlZAogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6MzEKICAgIC8vIHNlbGYuYXNzZXRfaWQudmFsdWUgPSBhc3NldF9pZAogICAgYnl0ZWNfMiAvLyAiYXNzZXRfaWQiCiAgICB1bmNvdmVyIDYKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTozMgogICAgLy8gc2VsZi51bml0X3ByaWNlLnZhbHVlID0gcHJpY2UKICAgIGJ5dGVjIDQgLy8gInVuaXRfcHJpY2UiCiAgICB1bmNvdmVyIDUKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTozMwogICAgLy8gc2VsZi5zYWxlX3N0YXJ0LnZhbHVlID0gc3RhcnQKICAgIGJ5dGVjIDUgLy8gInNhbGVfc3RhcnQiCiAgICB1bmNvdmVyIDQKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTozNAogICAgLy8gc2VsZi5zYWxlX2VuZC52YWx1ZSA9IGVuZAogICAgYnl0ZWMgNiAvLyAic2FsZV9lbmQiCiAgICB1bmNvdmVyIDMKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTozNQogICAgLy8gc2VsZi5wZXJfY2FwLnZhbHVlID0gcGVyX3dhbGxldF9jYXAKICAgIGJ5dGVjIDcgLy8gInBlcl9jYXAiCiAgICB1bmNvdmVyIDIKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTozNgogICAgLy8gc2VsZi5vcmdhbml6ZXIudmFsdWUgPSBvcmdhbml6ZXIKICAgIGJ5dGVjXzAgLy8gIm9yZ2FuaXplciIKICAgIHN3YXAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weToyMQogICAgLy8gQGFiaW1ldGhvZChjcmVhdGU9InJlcXVpcmUiKQogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy50aWNrZXRpbmdfYXBwLmNvbnRyYWN0LlRpY2tldGluZ0FwcC5idXlbcm91dGluZ10oKSAtPiB2b2lkOgpidXk6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTozOAogICAgLy8gQGFiaW1ldGhvZAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZHVwbiAyCiAgICBsZW4KICAgIGludGNfMiAvLyA4CiAgICA9PQogICAgYXNzZXJ0IC8vIGludmFsaWQgbnVtYmVyIG9mIGJ5dGVzIGZvciB1aW50NjQKICAgIGJ0b2kKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDIKICAgIGR1cAogICAgbGVuCiAgICBpbnRjXzMgLy8gMzIKICAgID09CiAgICBhc3NlcnQgLy8gaW52YWxpZCBudW1iZXIgb2YgYnl0ZXMgZm9yIHVpbnQ4WzMyXQogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NDEtNDIKICAgIC8vICMgdGltZSArIHdpbmRvdyBjaGVja3MKICAgIC8vIG5vdyA9IEdsb2JhbC5sYXRlc3RfdGltZXN0YW1wCiAgICBnbG9iYWwgTGF0ZXN0VGltZXN0YW1wCiAgICBkdXAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjQzCiAgICAvLyBhc3NlcnQgbm93ID49IHNlbGYuc2FsZV9zdGFydC52YWx1ZSBhbmQgbm93IDw9IHNlbGYuc2FsZV9lbmQudmFsdWUsICJzYWxlIGNsb3NlZCIKICAgIGludGNfMCAvLyAwCiAgICBieXRlYyA1IC8vICJzYWxlX3N0YXJ0IgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnNhbGVfc3RhcnQgZXhpc3RzCiAgICA+PQogICAgYnogYnV5X2Jvb2xfZmFsc2VANAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDYgLy8gInNhbGVfZW5kIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnNhbGVfZW5kIGV4aXN0cwogICAgZGlnIDEKICAgID49CiAgICBieiBidXlfYm9vbF9mYWxzZUA0CiAgICBpbnRjXzEgLy8gMQoKYnV5X2Jvb2xfbWVyZ2VANToKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjQzCiAgICAvLyBhc3NlcnQgbm93ID49IHNlbGYuc2FsZV9zdGFydC52YWx1ZSBhbmQgbm93IDw9IHNlbGYuc2FsZV9lbmQudmFsdWUsICJzYWxlIGNsb3NlZCIKICAgIGFzc2VydCAvLyBzYWxlIGNsb3NlZAogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NDQKICAgIC8vIGFzc2VydCBxdHkgPiAwLCAicXR5IgogICAgZGlnIDIKICAgIGR1cAogICAgYXNzZXJ0IC8vIHF0eQogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NDktNTAKICAgIC8vICMgZW5mb3JjZSBwZXItd2FsbGV0IGNhcAogICAgLy8gYXNzZXJ0IHNlbGYucHVyY2hhc2VkW2J1eWVyXSArIHF0eSA8PSBzZWxmLnBlcl9jYXAudmFsdWUsICJjYXAiCiAgICBkaWcgMgogICAgZHVwCiAgICBjb3ZlciAyCiAgICBpbnRjXzAgLy8gMAogICAgYnl0ZWMgOCAvLyAicHVyY2hhc2VkIgogICAgYXBwX2xvY2FsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYucHVyY2hhc2VkIGV4aXN0cyBmb3IgYWNjb3VudAogICAgZGlnIDEKICAgICsKICAgIGludGNfMCAvLyAwCiAgICBieXRlYyA3IC8vICJwZXJfY2FwIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnBlcl9jYXAgZXhpc3RzCiAgICBkaWcgMQogICAgPj0KICAgIGFzc2VydCAvLyBjYXAKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjUyLTUzCiAgICAvLyAjIGluY3JlbWVudCBwZXItYnV5ZXIgY291bnQgYW5kIHRyYWNrIHByb2NlZWRzCiAgICAvLyBzZWxmLnB1cmNoYXNlZFtidXllcl0gKz0gcXR5CiAgICBkaWcgMgogICAgYnl0ZWMgOCAvLyAicHVyY2hhc2VkIgogICAgdW5jb3ZlciAyCiAgICBhcHBfbG9jYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTo1NAogICAgLy8gc2VsZi5wcm9jZWVkcy52YWx1ZSArPSBxdHkgKiBzZWxmLnVuaXRfcHJpY2UudmFsdWUKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18xIC8vICJwcm9jZWVkcyIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5wcm9jZWVkcyBleGlzdHMKICAgIGludGNfMCAvLyAwCiAgICBieXRlYyA0IC8vICJ1bml0X3ByaWNlIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnVuaXRfcHJpY2UgZXhpc3RzCiAgICBkaWcgMgogICAgKgogICAgKwogICAgYnl0ZWNfMSAvLyAicHJvY2VlZHMiCiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NTYtNjMKICAgIC8vICMgVHJhbnNmZXIgQVNBIGZyb20gb3JnYW5pemVyJ3MgaG9sZGluZyB0byBidXllciB2aWEgY2xhd2JhY2sKICAgIC8vICMgUmVxdWlyZXM6IEFTQS5jbGF3YmFjayA9IHRoaXMgYXBwIGFkZHJlc3MsIG9yZ2FuaXplciBob2xkcyBpbnZlbnRvcnkKICAgIC8vIGl0eG4uQXNzZXRUcmFuc2ZlcigKICAgIC8vICAgICB4ZmVyX2Fzc2V0PXNlbGYuYXNzZXRfaWQudmFsdWUsCiAgICAvLyAgICAgYXNzZXRfc2VuZGVyPXNlbGYub3JnYW5pemVyLnZhbHVlLCAgICMgdGFrZSBmcm9tIG9yZ2FuaXplciAoY2xhd2JhY2spCiAgICAvLyAgICAgYXNzZXRfcmVjZWl2ZXI9YnV5ZXIsCiAgICAvLyAgICAgYXNzZXRfYW1vdW50PXF0eQogICAgLy8gKS5zdWJtaXQoKQogICAgaXR4bl9iZWdpbgogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NTkKICAgIC8vIHhmZXJfYXNzZXQ9c2VsZi5hc3NldF9pZC52YWx1ZSwKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18yIC8vICJhc3NldF9pZCIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5hc3NldF9pZCBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjYwCiAgICAvLyBhc3NldF9zZW5kZXI9c2VsZi5vcmdhbml6ZXIudmFsdWUsICAgIyB0YWtlIGZyb20gb3JnYW5pemVyIChjbGF3YmFjaykKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18wIC8vICJvcmdhbml6ZXIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYub3JnYW5pemVyIGV4aXN0cwogICAgdW5jb3ZlciAyCiAgICBpdHhuX2ZpZWxkIEFzc2V0QW1vdW50CiAgICB1bmNvdmVyIDIKICAgIGl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgogICAgaXR4bl9maWVsZCBBc3NldFNlbmRlcgogICAgaXR4bl9maWVsZCBYZmVyQXNzZXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjU2LTU4CiAgICAvLyAjIFRyYW5zZmVyIEFTQSBmcm9tIG9yZ2FuaXplcidzIGhvbGRpbmcgdG8gYnV5ZXIgdmlhIGNsYXdiYWNrCiAgICAvLyAjIFJlcXVpcmVzOiBBU0EuY2xhd2JhY2sgPSB0aGlzIGFwcCBhZGRyZXNzLCBvcmdhbml6ZXIgaG9sZHMgaW52ZW50b3J5CiAgICAvLyBpdHhuLkFzc2V0VHJhbnNmZXIoCiAgICBwdXNoaW50IDQgLy8gYXhmZXIKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIGludGNfMCAvLyAwCiAgICBpdHhuX2ZpZWxkIEZlZQogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NTYtNjMKICAgIC8vICMgVHJhbnNmZXIgQVNBIGZyb20gb3JnYW5pemVyJ3MgaG9sZGluZyB0byBidXllciB2aWEgY2xhd2JhY2sKICAgIC8vICMgUmVxdWlyZXM6IEFTQS5jbGF3YmFjayA9IHRoaXMgYXBwIGFkZHJlc3MsIG9yZ2FuaXplciBob2xkcyBpbnZlbnRvcnkKICAgIC8vIGl0eG4uQXNzZXRUcmFuc2ZlcigKICAgIC8vICAgICB4ZmVyX2Fzc2V0PXNlbGYuYXNzZXRfaWQudmFsdWUsCiAgICAvLyAgICAgYXNzZXRfc2VuZGVyPXNlbGYub3JnYW5pemVyLnZhbHVlLCAgICMgdGFrZSBmcm9tIG9yZ2FuaXplciAoY2xhd2JhY2spCiAgICAvLyAgICAgYXNzZXRfcmVjZWl2ZXI9YnV5ZXIsCiAgICAvLyAgICAgYXNzZXRfYW1vdW50PXF0eQogICAgLy8gKS5zdWJtaXQoKQogICAgaXR4bl9zdWJtaXQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjM4CiAgICAvLyBAYWJpbWV0aG9kCiAgICBieXRlY18zIC8vIDB4MTUxZjdjNzUKICAgIGRpZyA0CiAgICBjb25jYXQKICAgIGxvZwogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKYnV5X2Jvb2xfZmFsc2VANDoKICAgIGludGNfMCAvLyAwCiAgICBiIGJ1eV9ib29sX21lcmdlQDUKCgovLyBzbWFydF9jb250cmFjdHMudGlja2V0aW5nX2FwcC5jb250cmFjdC5UaWNrZXRpbmdBcHAud2l0aGRyYXdbcm91dGluZ10oKSAtPiB2b2lkOgp3aXRoZHJhdzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjcxCiAgICAvLyBhc3NlcnQgVHhuLnNlbmRlciA9PSBzZWxmLm9yZ2FuaXplci52YWx1ZSwgIm9ubHkgb3JnYW5pemVyIgogICAgdHhuIFNlbmRlcgogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzAgLy8gIm9yZ2FuaXplciIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5vcmdhbml6ZXIgZXhpc3RzCiAgICA9PQogICAgYXNzZXJ0IC8vIG9ubHkgb3JnYW5pemVyCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTo3MgogICAgLy8gYW10ID0gc2VsZi5wcm9jZWVkcy52YWx1ZQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzEgLy8gInByb2NlZWRzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnByb2NlZWRzIGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NzMKICAgIC8vIGFzc2VydCBhbXQgPiAwLCAibm90aGluZyB0byB3aXRoZHJhdyIKICAgIGR1cAogICAgYXNzZXJ0IC8vIG5vdGhpbmcgdG8gd2l0aGRyYXcKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5Ojc1CiAgICAvLyBzZWxmLnByb2NlZWRzLnZhbHVlID0gVUludDY0KDApCiAgICBieXRlY18xIC8vICJwcm9jZWVkcyIKICAgIGludGNfMCAvLyAwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NzctODEKICAgIC8vICMgUGF5IG91dCBBTEdPIHRvIG9yZ2FuaXplcgogICAgLy8gaXR4bi5QYXltZW50KAogICAgLy8gICAgIHJlY2VpdmVyPXNlbGYub3JnYW5pemVyLnZhbHVlLAogICAgLy8gICAgIGFtb3VudD1hbXQKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fYmVnaW4KICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5Ojc5CiAgICAvLyByZWNlaXZlcj1zZWxmLm9yZ2FuaXplci52YWx1ZSwKICAgIGludGNfMCAvLyAwCiAgICBieXRlY18wIC8vICJvcmdhbml6ZXIiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYub3JnYW5pemVyIGV4aXN0cwogICAgaXR4bl9maWVsZCBSZWNlaXZlcgogICAgaXR4bl9maWVsZCBBbW91bnQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5Ojc3LTc4CiAgICAvLyAjIFBheSBvdXQgQUxHTyB0byBvcmdhbml6ZXIKICAgIC8vIGl0eG4uUGF5bWVudCgKICAgIGludGNfMSAvLyBwYXkKICAgIGl0eG5fZmllbGQgVHlwZUVudW0KICAgIGludGNfMCAvLyAwCiAgICBpdHhuX2ZpZWxkIEZlZQogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6NzctODEKICAgIC8vICMgUGF5IG91dCBBTEdPIHRvIG9yZ2FuaXplcgogICAgLy8gaXR4bi5QYXltZW50KAogICAgLy8gICAgIHJlY2VpdmVyPXNlbGYub3JnYW5pemVyLnZhbHVlLAogICAgLy8gICAgIGFtb3VudD1hbXQKICAgIC8vICkuc3VibWl0KCkKICAgIGl0eG5fc3VibWl0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTo2OAogICAgLy8gQGFiaW1ldGhvZAogICAgaW50Y18xIC8vIDEKICAgIHJldHVybgoKCi8vIHNtYXJ0X2NvbnRyYWN0cy50aWNrZXRpbmdfYXBwLmNvbnRyYWN0LlRpY2tldGluZ0FwcC5nZXRfc2FsZV9pbmZvW3JvdXRpbmddKCkgLT4gdm9pZDoKZ2V0X3NhbGVfaW5mbzoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5Ojg3CiAgICAvLyBzZWxmLmFzc2V0X2lkLnZhbHVlLAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzIgLy8gImFzc2V0X2lkIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLmFzc2V0X2lkIGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6ODgKICAgIC8vIHNlbGYudW5pdF9wcmljZS52YWx1ZSwKICAgIGludGNfMCAvLyAwCiAgICBieXRlYyA0IC8vICJ1bml0X3ByaWNlIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnVuaXRfcHJpY2UgZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTo4OQogICAgLy8gc2VsZi5zYWxlX3N0YXJ0LnZhbHVlLAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDUgLy8gInNhbGVfc3RhcnQiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYuc2FsZV9zdGFydCBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjkwCiAgICAvLyBzZWxmLnNhbGVfZW5kLnZhbHVlLAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDYgLy8gInNhbGVfZW5kIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnNhbGVfZW5kIGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6OTEKICAgIC8vIHNlbGYub3JnYW5pemVyLnZhbHVlLAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzAgLy8gIm9yZ2FuaXplciIKICAgIGFwcF9nbG9iYWxfZ2V0X2V4CiAgICBhc3NlcnQgLy8gY2hlY2sgc2VsZi5vcmdhbml6ZXIgZXhpc3RzCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTo5MgogICAgLy8gc2VsZi5wZXJfY2FwLnZhbHVlLAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDcgLy8gInBlcl9jYXAiCiAgICBhcHBfZ2xvYmFsX2dldF9leAogICAgYXNzZXJ0IC8vIGNoZWNrIHNlbGYucGVyX2NhcCBleGlzdHMKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5OjkzCiAgICAvLyBzZWxmLnByb2NlZWRzLnZhbHVlLAogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjXzEgLy8gInByb2NlZWRzIgogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnByb2NlZWRzIGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6ODMKICAgIC8vIEBhYmltZXRob2QKICAgIHVuY292ZXIgNgogICAgaXRvYgogICAgdW5jb3ZlciA2CiAgICBpdG9iCiAgICBjb25jYXQKICAgIHVuY292ZXIgNQogICAgaXRvYgogICAgY29uY2F0CiAgICB1bmNvdmVyIDQKICAgIGl0b2IKICAgIGNvbmNhdAogICAgdW5jb3ZlciAzCiAgICBjb25jYXQKICAgIHVuY292ZXIgMgogICAgaXRvYgogICAgY29uY2F0CiAgICBzd2FwCiAgICBpdG9iCiAgICBjb25jYXQKICAgIGJ5dGVjXzMgLy8gMHgxNTFmN2M3NQogICAgc3dhcAogICAgY29uY2F0CiAgICBsb2cKICAgIGludGNfMSAvLyAxCiAgICByZXR1cm4KCgovLyBzbWFydF9jb250cmFjdHMudGlja2V0aW5nX2FwcC5jb250cmFjdC5UaWNrZXRpbmdBcHAuZ2V0X3B1cmNoYXNlZFtyb3V0aW5nXSgpIC0+IHZvaWQ6CmdldF9wdXJjaGFzZWQ6CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTo5NgogICAgLy8gQGFiaW1ldGhvZAogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQogICAgZHVwCiAgICBsZW4KICAgIGludGNfMyAvLyAzMgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgdWludDhbMzJdCiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weTo5OQogICAgLy8gcmV0dXJuIHNlbGYucHVyY2hhc2VkW2J1eWVyXQogICAgaW50Y18wIC8vIDAKICAgIGJ5dGVjIDggLy8gInB1cmNoYXNlZCIKICAgIGFwcF9sb2NhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBzZWxmLnB1cmNoYXNlZCBleGlzdHMgZm9yIGFjY291bnQKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy90aWNrZXRpbmdfYXBwL2NvbnRyYWN0LnB5Ojk2CiAgICAvLyBAYWJpbWV0aG9kCiAgICBpdG9iCiAgICBieXRlY18zIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCgoKLy8gc21hcnRfY29udHJhY3RzLnRpY2tldGluZ19hcHAuY29udHJhY3QuVGlja2V0aW5nQXBwLmhlbGxvW3JvdXRpbmddKCkgLT4gdm9pZDoKaGVsbG86CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weToxMDEKICAgIC8vIEBhYmltZXRob2QKICAgIHR4bmEgQXBwbGljYXRpb25BcmdzIDEKICAgIGR1cAogICAgaW50Y18wIC8vIDAKICAgIGV4dHJhY3RfdWludDE2CiAgICBwdXNoaW50IDIgLy8gMgogICAgKwogICAgZGlnIDEKICAgIGxlbgogICAgPT0KICAgIGFzc2VydCAvLyBpbnZhbGlkIG51bWJlciBvZiBieXRlcyBmb3IgKGxlbit1dGY4W10pCiAgICBleHRyYWN0IDIgMAogICAgLy8gc21hcnRfY29udHJhY3RzL3RpY2tldGluZ19hcHAvY29udHJhY3QucHk6MTA0CiAgICAvLyByZXR1cm4gIkhlbGxvLCAiICsgbmFtZQogICAgcHVzaGJ5dGVzICJIZWxsbywgIgogICAgc3dhcAogICAgY29uY2F0CiAgICAvLyBzbWFydF9jb250cmFjdHMvdGlja2V0aW5nX2FwcC9jb250cmFjdC5weToxMDEKICAgIC8vIEBhYmltZXRob2QKICAgIGR1cAogICAgbGVuCiAgICBpdG9iCiAgICBleHRyYWN0IDYgMgogICAgc3dhcAogICAgY29uY2F0CiAgICBieXRlY18zIC8vIDB4MTUxZjdjNzUKICAgIHN3YXAKICAgIGNvbmNhdAogICAgbG9nCiAgICBpbnRjXzEgLy8gMQogICAgcmV0dXJuCg==","clear":"I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBhbGdvcHkuYXJjNC5BUkM0Q29udHJhY3QuY2xlYXJfc3RhdGVfcHJvZ3JhbSgpIC0+IHVpbnQ2NDoKbWFpbjoKICAgIHB1c2hpbnQgMSAvLyAxCiAgICByZXR1cm4K"},"byteCode":{"approval":"CyAEAAEIICYJCW9yZ2FuaXplcghwcm9jZWVkcwhhc3NldF9pZAQVH3x1CnVuaXRfcHJpY2UKc2FsZV9zdGFydAhzYWxlX2VuZAdwZXJfY2FwCXB1cmNoYXNlZDEZFEQxGEEAK4IFBBZY21IEtzVf0QS+DfU8BADPzmUEAr7OETYaAI4FAGcA6wEOAU0BYQCABHhlYJM2GgCOAQABADYaAUkVJBJEFzYaAkkVJBJEFzYaA0kVJBJEFzYaBEkVJBJEFzYaBUkVJBJEFzYaBkkVJRJEIiplRBREKk8GZycETwVnJwVPBGcnBk8DZycHTwJnKExnI0M2GgFHAhUkEkQXNhoCSRUlEkQyB0kiJwVlRA9BAGIiJwZlREsBD0EAVyNESwJJREsCSU4CIicIY0RLAQgiJwdlREsBD0RLAicITwJmIillRCInBGVESwILCClMZ7EiKmVEIihlRE8CshJPArIUshOyEYEEshAisgGzK0sEULAjQyJC/6YxACIoZUQSRCIpZURJRCkiZ7EiKGVEsgeyCCOyECKyAbMjQyIqZUQiJwRlRCInBWVEIicGZUQiKGVEIicHZUQiKWVETwYWTwYWUE8FFlBPBBZQTwNQTwIWUEwWUCtMULAjQzYaAUkVJRJEIicIY0QWK0xQsCNDNhoBSSJZgQIISwEVEkRXAgCAB0hlbGxvLCBMUEkVFlcGAkxQK0xQsCND","clear":"C4EBQw=="},"compilerInfo":{"compiler":"puya","compilerVersion":{"major":5,"minor":2,"patch":0}},"events":[],"templateVariables":{}} as unknown as Arc56Contract
 
 /**
  * A state record containing binary data
@@ -71,122 +71,37 @@ export type TicketingAppArgs = {
    * The object representation of the arguments for each method
    */
   obj: {
+    'bootstrap(uint64,uint64,uint64,uint64,uint64,address)void': {
+      assetId: bigint | number
+      price: bigint | number
+      start: bigint | number
+      end: bigint | number
+      perWalletCap: bigint | number
+      organizer: string
+    }
+    'buy(uint64,address)uint64': {
+      qty: bigint | number
+      buyer: string
+    }
+    'withdraw()void': Record<string, never>
+    'get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)': Record<string, never>
+    'get_purchased(address)uint64': {
+      buyer: string
+    }
     'hello(string)string': {
       name: string
-    }
-    'createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64': {
-      /**
-       * Event title
-       */
-      title: string
-      /**
-       * Event subtitle
-       */
-      subtitle: string
-      /**
-       * Event description
-       */
-      description: string
-      /**
-       * Unix timestamp of event start
-       */
-      startDate: bigint | number
-      /**
-       * Unix timestamp of event end
-       */
-      endDate: bigint | number
-      /**
-       * Event timezone
-       */
-      timezone: string
-      /**
-       * Type of event (in-person, virtual, hybrid)
-       */
-      locationType: string
-      /**
-       * Venue name (if applicable)
-       */
-      venue: string
-      /**
-       * City name
-       */
-      city: string
-      /**
-       * Country name
-       */
-      country: string
-      /**
-       * Event website URL
-       */
-      website: string
-      /**
-       * Name of the ticket type
-       */
-      ticketName: string
-      /**
-       * Total number of tickets to mint
-       */
-      ticketSupply: bigint | number
-      /**
-       * Price per ticket in microALGOs
-       */
-      price: bigint | number
-      /**
-       * Currency type (ALGO/USDC)
-       */
-      currency: string
-      /**
-       * Maximum tickets per wallet
-       */
-      perWalletLimit: bigint | number
-      /**
-       * Whether resale is allowed (0/1)
-       */
-      resaleAllowed: bigint | number
-      /**
-       * Address to receive ticket revenue
-       */
-      treasuryAddress: string
-      /**
-       * Address that manages the event
-       */
-      issuerAddress: string
-      /**
-       * Unit name for the ASA
-       */
-      asaUnitName: string
-      /**
-       * Asset name for the ASA
-       */
-      asaAssetName: string
-      /**
-       * Royalty in basis points
-       */
-      royaltyBps: bigint | number
-      /**
-       * DID for VC issuer
-       */
-      vcIssuerDid: string
-      /**
-       * URL for VC schema
-       */
-      vcSchemaUrl: string
-      /**
-       * Whether QR check-in is enabled (0/1)
-       */
-      enableQr: bigint | number
-      /**
-       * Whether to use data minimization (0/1)
-       */
-      dataMinimised: bigint | number
     }
   }
   /**
    * The tuple representation of the arguments for each method
    */
   tuple: {
+    'bootstrap(uint64,uint64,uint64,uint64,uint64,address)void': [assetId: bigint | number, price: bigint | number, start: bigint | number, end: bigint | number, perWalletCap: bigint | number, organizer: string]
+    'buy(uint64,address)uint64': [qty: bigint | number, buyer: string]
+    'withdraw()void': []
+    'get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)': []
+    'get_purchased(address)uint64': [buyer: string]
     'hello(string)string': [name: string]
-    'createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64': [title: string, subtitle: string, description: string, startDate: bigint | number, endDate: bigint | number, timezone: string, locationType: string, venue: string, city: string, country: string, website: string, ticketName: string, ticketSupply: bigint | number, price: bigint | number, currency: string, perWalletLimit: bigint | number, resaleAllowed: bigint | number, treasuryAddress: string, issuerAddress: string, asaUnitName: string, asaAssetName: string, royaltyBps: bigint | number, vcIssuerDid: string, vcSchemaUrl: string, enableQr: bigint | number, dataMinimised: bigint | number]
   }
 }
 
@@ -194,8 +109,12 @@ export type TicketingAppArgs = {
  * The return type for each method
  */
 export type TicketingAppReturns = {
+  'bootstrap(uint64,uint64,uint64,uint64,uint64,address)void': void
+  'buy(uint64,address)uint64': bigint
+  'withdraw()void': void
+  'get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)': [bigint, bigint, bigint, bigint, string, bigint, bigint]
+  'get_purchased(address)uint64': bigint
   'hello(string)string': string
-  'createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64': bigint
 }
 
 /**
@@ -206,19 +125,59 @@ export type TicketingAppTypes = {
    * Maps method signatures / names to their argument and return types.
    */
   methods:
+    & Record<'bootstrap(uint64,uint64,uint64,uint64,uint64,address)void' | 'bootstrap', {
+      argsObj: TicketingAppArgs['obj']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']
+      argsTuple: TicketingAppArgs['tuple']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']
+      returns: TicketingAppReturns['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']
+    }>
+    & Record<'buy(uint64,address)uint64' | 'buy', {
+      argsObj: TicketingAppArgs['obj']['buy(uint64,address)uint64']
+      argsTuple: TicketingAppArgs['tuple']['buy(uint64,address)uint64']
+      returns: TicketingAppReturns['buy(uint64,address)uint64']
+    }>
+    & Record<'withdraw()void' | 'withdraw', {
+      argsObj: TicketingAppArgs['obj']['withdraw()void']
+      argsTuple: TicketingAppArgs['tuple']['withdraw()void']
+      returns: TicketingAppReturns['withdraw()void']
+    }>
+    & Record<'get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)' | 'get_sale_info', {
+      argsObj: TicketingAppArgs['obj']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']
+      argsTuple: TicketingAppArgs['tuple']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']
+      returns: TicketingAppReturns['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']
+    }>
+    & Record<'get_purchased(address)uint64' | 'get_purchased', {
+      argsObj: TicketingAppArgs['obj']['get_purchased(address)uint64']
+      argsTuple: TicketingAppArgs['tuple']['get_purchased(address)uint64']
+      returns: TicketingAppReturns['get_purchased(address)uint64']
+    }>
     & Record<'hello(string)string' | 'hello', {
       argsObj: TicketingAppArgs['obj']['hello(string)string']
       argsTuple: TicketingAppArgs['tuple']['hello(string)string']
       returns: TicketingAppReturns['hello(string)string']
     }>
-    & Record<'createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64' | 'createEvent', {
-      argsObj: TicketingAppArgs['obj']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']
-      argsTuple: TicketingAppArgs['tuple']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']
-      /**
-       * The created event ASA ID
-       */
-      returns: TicketingAppReturns['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']
-    }>
+  /**
+   * Defines the shape of the state of the application.
+   */
+  state: {
+    global: {
+      keys: {
+        assetId: bigint
+        unitPrice: bigint
+        saleStart: bigint
+        saleEnd: bigint
+        organizer: string
+        perCap: bigint
+        proceeds: bigint
+      }
+      maps: {}
+    }
+    local: {
+      keys: {
+        purchased: bigint
+      }
+      maps: {}
+    }
+  }
 }
 
 /**
@@ -248,12 +207,23 @@ export type MethodArgs<TSignature extends TicketingAppSignatures> = TicketingApp
  */
 export type MethodReturn<TSignature extends TicketingAppSignatures> = TicketingAppTypes['methods'][TSignature]['returns']
 
+/**
+ * Defines the shape of the keyed global state of the application.
+ */
+export type GlobalKeysState = TicketingAppTypes['state']['global']['keys']
+
+/**
+ * Defines the shape of the keyed local state of the application.
+ */
+export type LocalKeysState = TicketingAppTypes['state']['local']['keys']
+
 
 /**
  * Defines supported create method params for this smart contract
  */
 export type TicketingAppCreateCallParams =
-  | Expand<AppClientBareCallParams & {method?: never} & {onComplete?: OnApplicationComplete.NoOpOC} & CreateSchema>
+  | Expand<CallParams<TicketingAppArgs['obj']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void'] | TicketingAppArgs['tuple']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']> & {method: 'bootstrap'} & {onComplete?: OnApplicationComplete.NoOpOC} & CreateSchema>
+  | Expand<CallParams<TicketingAppArgs['obj']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void'] | TicketingAppArgs['tuple']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']> & {method: 'bootstrap(uint64,uint64,uint64,uint64,uint64,address)void'} & {onComplete?: OnApplicationComplete.NoOpOC} & CreateSchema>
 /**
  * Defines arguments required for the deploy method.
  */
@@ -270,7 +240,99 @@ export type TicketingAppDeployParams = Expand<Omit<AppFactoryDeployParams, 'crea
  */
 export abstract class TicketingAppParamsFactory {
   /**
+   * Gets available create ABI call param factories
+   */
+  static get create() {
+    return {
+      _resolveByMethod<TParams extends TicketingAppCreateCallParams & {method: string}>(params: TParams) {
+        switch(params.method) {
+          case 'bootstrap':
+          case 'bootstrap(uint64,uint64,uint64,uint64,uint64,address)void':
+            return TicketingAppParamsFactory.create.bootstrap(params)
+        }
+        throw new Error(`Unknown ' + verb + ' method`)
+      },
+
+      /**
+       * Constructs create ABI call params for the TicketingApp smart contract using the bootstrap(uint64,uint64,uint64,uint64,uint64,address)void ABI method
+       *
+       * @param params Parameters for the call
+       * @returns An `AppClientMethodCallParams` object for the call
+       */
+      bootstrap(params: CallParams<TicketingAppArgs['obj']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void'] | TicketingAppArgs['tuple']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']> & AppClientCompilationParams & {onComplete?: OnApplicationComplete.NoOpOC}): AppClientMethodCallParams & AppClientCompilationParams & {onComplete?: OnApplicationComplete.NoOpOC} {
+        return {
+          ...params,
+          method: 'bootstrap(uint64,uint64,uint64,uint64,uint64,address)void' as const,
+          args: Array.isArray(params.args) ? params.args : [params.args.assetId, params.args.price, params.args.start, params.args.end, params.args.perWalletCap, params.args.organizer],
+        }
+      },
+    }
+  }
+
+  /**
+   * Constructs a no op call for the buy(uint64,address)uint64 ABI method
+   *
+   * Buy tickets by sending ALGO payment.
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static buy(params: CallParams<TicketingAppArgs['obj']['buy(uint64,address)uint64'] | TicketingAppArgs['tuple']['buy(uint64,address)uint64']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'buy(uint64,address)uint64' as const,
+      args: Array.isArray(params.args) ? params.args : [params.args.qty, params.args.buyer],
+    }
+  }
+  /**
+   * Constructs a no op call for the withdraw()void ABI method
+   *
+   * Withdraw proceeds to organizer.
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static withdraw(params: CallParams<TicketingAppArgs['obj']['withdraw()void'] | TicketingAppArgs['tuple']['withdraw()void']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'withdraw()void' as const,
+      args: Array.isArray(params.args) ? params.args : [],
+    }
+  }
+  /**
+   * Constructs a no op call for the get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64) ABI method
+   *
+   * Get sale information.
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static getSaleInfo(params: CallParams<TicketingAppArgs['obj']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)'] | TicketingAppArgs['tuple']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)' as const,
+      args: Array.isArray(params.args) ? params.args : [],
+    }
+  }
+  /**
+   * Constructs a no op call for the get_purchased(address)uint64 ABI method
+   *
+   * Get number of tickets purchased by a specific buyer.
+   *
+   * @param params Parameters for the call
+   * @returns An `AppClientMethodCallParams` object for the call
+   */
+  static getPurchased(params: CallParams<TicketingAppArgs['obj']['get_purchased(address)uint64'] | TicketingAppArgs['tuple']['get_purchased(address)uint64']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
+    return {
+      ...params,
+      method: 'get_purchased(address)uint64' as const,
+      args: Array.isArray(params.args) ? params.args : [params.args.buyer],
+    }
+  }
+  /**
    * Constructs a no op call for the hello(string)string ABI method
+   *
+   * A simple hello world method for testing.
    *
    * @param params Parameters for the call
    * @returns An `AppClientMethodCallParams` object for the call
@@ -280,21 +342,6 @@ export abstract class TicketingAppParamsFactory {
       ...params,
       method: 'hello(string)string' as const,
       args: Array.isArray(params.args) ? params.args : [params.args.name],
-    }
-  }
-  /**
-   * Constructs a no op call for the createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64 ABI method
-   *
-   * Create a new event by minting an ASA and storing event data in global state.
-   *
-   * @param params Parameters for the call
-   * @returns An `AppClientMethodCallParams` object for the call
-   */
-  static createEvent(params: CallParams<TicketingAppArgs['obj']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64'] | TicketingAppArgs['tuple']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']> & CallOnComplete): AppClientMethodCallParams & CallOnComplete {
-    return {
-      ...params,
-      method: 'createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64' as const,
-      args: Array.isArray(params.args) ? params.args : [params.args.title, params.args.subtitle, params.args.description, params.args.startDate, params.args.endDate, params.args.timezone, params.args.locationType, params.args.venue, params.args.city, params.args.country, params.args.website, params.args.ticketName, params.args.ticketSupply, params.args.price, params.args.currency, params.args.perWalletLimit, params.args.resaleAllowed, params.args.treasuryAddress, params.args.issuerAddress, params.args.asaUnitName, params.args.asaAssetName, params.args.royaltyBps, params.args.vcIssuerDid, params.args.vcSchemaUrl, params.args.enableQr, params.args.dataMinimised],
     }
   }
 }
@@ -371,6 +418,7 @@ export class TicketingAppFactory {
   public async deploy(params: TicketingAppDeployParams = {}) {
     const result = await this.appFactory.deploy({
       ...params,
+      createParams: params.createParams?.method ? TicketingAppParamsFactory.create._resolveByMethod(params.createParams) : params.createParams ? params.createParams as (TicketingAppCreateCallParams & { args: Uint8Array[] }) : undefined,
     })
     return { result: result.result, appClient: new TicketingAppClient(result.appClient) }
   }
@@ -384,13 +432,15 @@ export class TicketingAppFactory {
      */
     create: {
       /**
-       * Creates a new instance of the TicketingApp smart contract using a bare call.
+       * Creates a new instance of the TicketingApp smart contract using the bootstrap(uint64,uint64,uint64,uint64,uint64,address)void ABI method.
        *
-       * @param params The params for the bare (raw) call
-       * @returns The params for a create call
+       * Bootstrap the ticket sale with ASA and sale parameters.
+       *
+       * @param params The params for the smart contract call
+       * @returns The create params
        */
-      bare: (params?: Expand<AppClientBareCallParams & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC}>) => {
-        return this.appFactory.params.bare.create(params)
+      bootstrap: (params: CallParams<TicketingAppArgs['obj']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void'] | TicketingAppArgs['tuple']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']> & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+        return this.appFactory.params.create(TicketingAppParamsFactory.create.bootstrap(params))
       },
     },
 
@@ -405,13 +455,15 @@ export class TicketingAppFactory {
      */
     create: {
       /**
-       * Creates a new instance of the TicketingApp smart contract using a bare call.
+       * Creates a new instance of the TicketingApp smart contract using the bootstrap(uint64,uint64,uint64,uint64,uint64,address)void ABI method.
        *
-       * @param params The params for the bare (raw) call
-       * @returns The transaction for a create call
+       * Bootstrap the ticket sale with ASA and sale parameters.
+       *
+       * @param params The params for the smart contract call
+       * @returns The create transaction
        */
-      bare: (params?: Expand<AppClientBareCallParams & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC}>) => {
-        return this.appFactory.createTransaction.bare.create(params)
+      bootstrap: (params: CallParams<TicketingAppArgs['obj']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void'] | TicketingAppArgs['tuple']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']> & AppClientCompilationParams & CreateSchema & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+        return this.appFactory.createTransaction.create(TicketingAppParamsFactory.create.bootstrap(params))
       },
     },
 
@@ -426,14 +478,16 @@ export class TicketingAppFactory {
      */
     create: {
       /**
-       * Creates a new instance of the TicketingApp smart contract using a bare call.
+       * Creates a new instance of the TicketingApp smart contract using an ABI method call using the bootstrap(uint64,uint64,uint64,uint64,uint64,address)void ABI method.
        *
-       * @param params The params for the bare (raw) call
+       * Bootstrap the ticket sale with ASA and sale parameters.
+       *
+       * @param params The params for the smart contract call
        * @returns The create result
        */
-      bare: async (params?: Expand<AppClientBareCallParams & AppClientCompilationParams & CreateSchema & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}>) => {
-        const result = await this.appFactory.send.bare.create(params)
-        return { result: result.result, appClient: new TicketingAppClient(result.appClient) }
+      bootstrap: async (params: CallParams<TicketingAppArgs['obj']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void'] | TicketingAppArgs['tuple']['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']> & AppClientCompilationParams & CreateSchema & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+        const result = await this.appFactory.send.create(TicketingAppParamsFactory.create.bootstrap(params))
+        return { result: { ...result.result, return: result.result.return as unknown as (undefined | TicketingAppReturns['bootstrap(uint64,uint64,uint64,uint64,uint64,address)void']) }, appClient: new TicketingAppClient(result.appClient) }
       },
     },
 
@@ -538,25 +592,63 @@ export class TicketingAppClient {
     },
 
     /**
+     * Makes a call to the TicketingApp smart contract using the `buy(uint64,address)uint64` ABI method.
+     *
+     * Buy tickets by sending ALGO payment.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    buy: (params: CallParams<TicketingAppArgs['obj']['buy(uint64,address)uint64'] | TicketingAppArgs['tuple']['buy(uint64,address)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.params.call(TicketingAppParamsFactory.buy(params))
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `withdraw()void` ABI method.
+     *
+     * Withdraw proceeds to organizer.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    withdraw: (params: CallParams<TicketingAppArgs['obj']['withdraw()void'] | TicketingAppArgs['tuple']['withdraw()void']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.params.call(TicketingAppParamsFactory.withdraw(params))
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)` ABI method.
+     *
+     * Get sale information.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    getSaleInfo: (params: CallParams<TicketingAppArgs['obj']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)'] | TicketingAppArgs['tuple']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.params.call(TicketingAppParamsFactory.getSaleInfo(params))
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `get_purchased(address)uint64` ABI method.
+     *
+     * Get number of tickets purchased by a specific buyer.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call params
+     */
+    getPurchased: (params: CallParams<TicketingAppArgs['obj']['get_purchased(address)uint64'] | TicketingAppArgs['tuple']['get_purchased(address)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.params.call(TicketingAppParamsFactory.getPurchased(params))
+    },
+
+    /**
      * Makes a call to the TicketingApp smart contract using the `hello(string)string` ABI method.
+     *
+     * A simple hello world method for testing.
      *
      * @param params The params for the smart contract call
      * @returns The call params
      */
     hello: (params: CallParams<TicketingAppArgs['obj']['hello(string)string'] | TicketingAppArgs['tuple']['hello(string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
       return this.appClient.params.call(TicketingAppParamsFactory.hello(params))
-    },
-
-    /**
-     * Makes a call to the TicketingApp smart contract using the `createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64` ABI method.
-     *
-     * Create a new event by minting an ASA and storing event data in global state.
-     *
-     * @param params The params for the smart contract call
-     * @returns The call params: The created event ASA ID
-     */
-    createEvent: (params: CallParams<TicketingAppArgs['obj']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64'] | TicketingAppArgs['tuple']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
-      return this.appClient.params.call(TicketingAppParamsFactory.createEvent(params))
     },
 
   }
@@ -576,25 +668,63 @@ export class TicketingAppClient {
     },
 
     /**
+     * Makes a call to the TicketingApp smart contract using the `buy(uint64,address)uint64` ABI method.
+     *
+     * Buy tickets by sending ALGO payment.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    buy: (params: CallParams<TicketingAppArgs['obj']['buy(uint64,address)uint64'] | TicketingAppArgs['tuple']['buy(uint64,address)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.createTransaction.call(TicketingAppParamsFactory.buy(params))
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `withdraw()void` ABI method.
+     *
+     * Withdraw proceeds to organizer.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    withdraw: (params: CallParams<TicketingAppArgs['obj']['withdraw()void'] | TicketingAppArgs['tuple']['withdraw()void']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.createTransaction.call(TicketingAppParamsFactory.withdraw(params))
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)` ABI method.
+     *
+     * Get sale information.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    getSaleInfo: (params: CallParams<TicketingAppArgs['obj']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)'] | TicketingAppArgs['tuple']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']> & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      return this.appClient.createTransaction.call(TicketingAppParamsFactory.getSaleInfo(params))
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `get_purchased(address)uint64` ABI method.
+     *
+     * Get number of tickets purchased by a specific buyer.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call transaction
+     */
+    getPurchased: (params: CallParams<TicketingAppArgs['obj']['get_purchased(address)uint64'] | TicketingAppArgs['tuple']['get_purchased(address)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      return this.appClient.createTransaction.call(TicketingAppParamsFactory.getPurchased(params))
+    },
+
+    /**
      * Makes a call to the TicketingApp smart contract using the `hello(string)string` ABI method.
+     *
+     * A simple hello world method for testing.
      *
      * @param params The params for the smart contract call
      * @returns The call transaction
      */
     hello: (params: CallParams<TicketingAppArgs['obj']['hello(string)string'] | TicketingAppArgs['tuple']['hello(string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
       return this.appClient.createTransaction.call(TicketingAppParamsFactory.hello(params))
-    },
-
-    /**
-     * Makes a call to the TicketingApp smart contract using the `createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64` ABI method.
-     *
-     * Create a new event by minting an ASA and storing event data in global state.
-     *
-     * @param params The params for the smart contract call
-     * @returns The call transaction: The created event ASA ID
-     */
-    createEvent: (params: CallParams<TicketingAppArgs['obj']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64'] | TicketingAppArgs['tuple']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) => {
-      return this.appClient.createTransaction.call(TicketingAppParamsFactory.createEvent(params))
     },
 
   }
@@ -614,7 +744,61 @@ export class TicketingAppClient {
     },
 
     /**
+     * Makes a call to the TicketingApp smart contract using the `buy(uint64,address)uint64` ABI method.
+     *
+     * Buy tickets by sending ALGO payment.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    buy: async (params: CallParams<TicketingAppArgs['obj']['buy(uint64,address)uint64'] | TicketingAppArgs['tuple']['buy(uint64,address)uint64']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      const result = await this.appClient.send.call(TicketingAppParamsFactory.buy(params))
+      return {...result, return: result.return as unknown as (undefined | TicketingAppReturns['buy(uint64,address)uint64'])}
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `withdraw()void` ABI method.
+     *
+     * Withdraw proceeds to organizer.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    withdraw: async (params: CallParams<TicketingAppArgs['obj']['withdraw()void'] | TicketingAppArgs['tuple']['withdraw()void']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      const result = await this.appClient.send.call(TicketingAppParamsFactory.withdraw(params))
+      return {...result, return: result.return as unknown as (undefined | TicketingAppReturns['withdraw()void'])}
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)` ABI method.
+     *
+     * Get sale information.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    getSaleInfo: async (params: CallParams<TicketingAppArgs['obj']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)'] | TicketingAppArgs['tuple']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC} = {args: []}) => {
+      const result = await this.appClient.send.call(TicketingAppParamsFactory.getSaleInfo(params))
+      return {...result, return: result.return as unknown as (undefined | TicketingAppReturns['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)'])}
+    },
+
+    /**
+     * Makes a call to the TicketingApp smart contract using the `get_purchased(address)uint64` ABI method.
+     *
+     * Get number of tickets purchased by a specific buyer.
+     *
+     * @param params The params for the smart contract call
+     * @returns The call result
+     */
+    getPurchased: async (params: CallParams<TicketingAppArgs['obj']['get_purchased(address)uint64'] | TicketingAppArgs['tuple']['get_purchased(address)uint64']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
+      const result = await this.appClient.send.call(TicketingAppParamsFactory.getPurchased(params))
+      return {...result, return: result.return as unknown as (undefined | TicketingAppReturns['get_purchased(address)uint64'])}
+    },
+
+    /**
      * Makes a call to the TicketingApp smart contract using the `hello(string)string` ABI method.
+     *
+     * A simple hello world method for testing.
      *
      * @param params The params for the smart contract call
      * @returns The call result
@@ -622,19 +806,6 @@ export class TicketingAppClient {
     hello: async (params: CallParams<TicketingAppArgs['obj']['hello(string)string'] | TicketingAppArgs['tuple']['hello(string)string']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
       const result = await this.appClient.send.call(TicketingAppParamsFactory.hello(params))
       return {...result, return: result.return as unknown as (undefined | TicketingAppReturns['hello(string)string'])}
-    },
-
-    /**
-     * Makes a call to the TicketingApp smart contract using the `createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64` ABI method.
-     *
-     * Create a new event by minting an ASA and storing event data in global state.
-     *
-     * @param params The params for the smart contract call
-     * @returns The call result: The created event ASA ID
-     */
-    createEvent: async (params: CallParams<TicketingAppArgs['obj']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64'] | TicketingAppArgs['tuple']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']> & SendParams & {onComplete?: OnApplicationComplete.NoOpOC}) => {
-      const result = await this.appClient.send.call(TicketingAppParamsFactory.createEvent(params))
-      return {...result, return: result.return as unknown as (undefined | TicketingAppReturns['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64'])}
     },
 
   }
@@ -653,6 +824,75 @@ export class TicketingAppClient {
    * Methods to access state for the current TicketingApp app
    */
   state = {
+    /**
+     * Methods to access global state for the current TicketingApp app
+     */
+    global: {
+      /**
+       * Get all current keyed values from global state
+       */
+      getAll: async (): Promise<Partial<Expand<GlobalKeysState>>> => {
+        const result = await this.appClient.state.global.getAll()
+        return {
+          assetId: result.asset_id,
+          unitPrice: result.unit_price,
+          saleStart: result.sale_start,
+          saleEnd: result.sale_end,
+          organizer: result.organizer,
+          perCap: result.per_cap,
+          proceeds: result.proceeds,
+        }
+      },
+      /**
+       * Get the current value of the asset_id key in global state
+       */
+      assetId: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("asset_id")) as bigint | undefined },
+      /**
+       * Get the current value of the unit_price key in global state
+       */
+      unitPrice: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("unit_price")) as bigint | undefined },
+      /**
+       * Get the current value of the sale_start key in global state
+       */
+      saleStart: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("sale_start")) as bigint | undefined },
+      /**
+       * Get the current value of the sale_end key in global state
+       */
+      saleEnd: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("sale_end")) as bigint | undefined },
+      /**
+       * Get the current value of the organizer key in global state
+       */
+      organizer: async (): Promise<string | undefined> => { return (await this.appClient.state.global.getValue("organizer")) as string | undefined },
+      /**
+       * Get the current value of the per_cap key in global state
+       */
+      perCap: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("per_cap")) as bigint | undefined },
+      /**
+       * Get the current value of the proceeds key in global state
+       */
+      proceeds: async (): Promise<bigint | undefined> => { return (await this.appClient.state.global.getValue("proceeds")) as bigint | undefined },
+    },
+    /**
+     * Methods to access local state for the current TicketingApp app
+     */
+    local: (address: string | Address) => {
+      const encodedAddress = typeof address === 'string' ? address : encodeAddress(address.publicKey)
+      return {
+        /**
+         * Get all current keyed values from local state
+         */
+        getAll: async (): Promise<Partial<Expand<LocalKeysState>>> => {
+          const result = await this.appClient.state.local(encodedAddress).getAll()
+          return {
+            purchased: result.purchased,
+          }
+        },
+        /**
+         * Get the current value of the purchased key in local state
+         */
+        purchased: async (): Promise<bigint | undefined> => { return (await this.appClient.state.local(encodedAddress).getValue("purchased")) as bigint | undefined },
+      }
+    },
   }
 
   public newGroup(): TicketingAppComposer {
@@ -662,19 +902,43 @@ export class TicketingAppClient {
     const resultMappers: Array<undefined | ((x: ABIReturn | undefined) => any)> = []
     return {
       /**
+       * Add a buy(uint64,address)uint64 method call against the TicketingApp contract
+       */
+      buy(params: CallParams<TicketingAppArgs['obj']['buy(uint64,address)uint64'] | TicketingAppArgs['tuple']['buy(uint64,address)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.buy(params)))
+        resultMappers.push((v) => client.decodeReturnValue('buy(uint64,address)uint64', v))
+        return this
+      },
+      /**
+       * Add a withdraw()void method call against the TicketingApp contract
+       */
+      withdraw(params: CallParams<TicketingAppArgs['obj']['withdraw()void'] | TicketingAppArgs['tuple']['withdraw()void']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.withdraw(params)))
+        resultMappers.push(undefined)
+        return this
+      },
+      /**
+       * Add a get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64) method call against the TicketingApp contract
+       */
+      getSaleInfo(params: CallParams<TicketingAppArgs['obj']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)'] | TicketingAppArgs['tuple']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.getSaleInfo(params)))
+        resultMappers.push((v) => client.decodeReturnValue('get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)', v))
+        return this
+      },
+      /**
+       * Add a get_purchased(address)uint64 method call against the TicketingApp contract
+       */
+      getPurchased(params: CallParams<TicketingAppArgs['obj']['get_purchased(address)uint64'] | TicketingAppArgs['tuple']['get_purchased(address)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
+        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.getPurchased(params)))
+        resultMappers.push((v) => client.decodeReturnValue('get_purchased(address)uint64', v))
+        return this
+      },
+      /**
        * Add a hello(string)string method call against the TicketingApp contract
        */
       hello(params: CallParams<TicketingAppArgs['obj']['hello(string)string'] | TicketingAppArgs['tuple']['hello(string)string']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
         promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.hello(params)))
         resultMappers.push((v) => client.decodeReturnValue('hello(string)string', v))
-        return this
-      },
-      /**
-       * Add a createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64 method call against the TicketingApp contract
-       */
-      createEvent(params: CallParams<TicketingAppArgs['obj']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64'] | TicketingAppArgs['tuple']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']> & {onComplete?: OnApplicationComplete.NoOpOC}) {
-        promiseChain = promiseChain.then(async () => composer.addAppCallMethodCall(await client.params.createEvent(params)))
-        resultMappers.push((v) => client.decodeReturnValue('createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64', v))
         return this
       },
       /**
@@ -713,24 +977,59 @@ export class TicketingAppClient {
 }
 export type TicketingAppComposer<TReturns extends [...any[]] = []> = {
   /**
+   * Calls the buy(uint64,address)uint64 ABI method.
+   *
+   * Buy tickets by sending ALGO payment.
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  buy(params?: CallParams<TicketingAppArgs['obj']['buy(uint64,address)uint64'] | TicketingAppArgs['tuple']['buy(uint64,address)uint64']>): TicketingAppComposer<[...TReturns, TicketingAppReturns['buy(uint64,address)uint64'] | undefined]>
+
+  /**
+   * Calls the withdraw()void ABI method.
+   *
+   * Withdraw proceeds to organizer.
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  withdraw(params?: CallParams<TicketingAppArgs['obj']['withdraw()void'] | TicketingAppArgs['tuple']['withdraw()void']>): TicketingAppComposer<[...TReturns, TicketingAppReturns['withdraw()void'] | undefined]>
+
+  /**
+   * Calls the get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64) ABI method.
+   *
+   * Get sale information.
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  getSaleInfo(params?: CallParams<TicketingAppArgs['obj']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)'] | TicketingAppArgs['tuple']['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)']>): TicketingAppComposer<[...TReturns, TicketingAppReturns['get_sale_info()(uint64,uint64,uint64,uint64,address,uint64,uint64)'] | undefined]>
+
+  /**
+   * Calls the get_purchased(address)uint64 ABI method.
+   *
+   * Get number of tickets purchased by a specific buyer.
+   *
+   * @param args The arguments for the contract call
+   * @param params Any additional parameters for the call
+   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
+   */
+  getPurchased(params?: CallParams<TicketingAppArgs['obj']['get_purchased(address)uint64'] | TicketingAppArgs['tuple']['get_purchased(address)uint64']>): TicketingAppComposer<[...TReturns, TicketingAppReturns['get_purchased(address)uint64'] | undefined]>
+
+  /**
    * Calls the hello(string)string ABI method.
+   *
+   * A simple hello world method for testing.
    *
    * @param args The arguments for the contract call
    * @param params Any additional parameters for the call
    * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
    */
   hello(params?: CallParams<TicketingAppArgs['obj']['hello(string)string'] | TicketingAppArgs['tuple']['hello(string)string']>): TicketingAppComposer<[...TReturns, TicketingAppReturns['hello(string)string'] | undefined]>
-
-  /**
-   * Calls the createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64 ABI method.
-   *
-   * Create a new event by minting an ASA and storing event data in global state.
-   *
-   * @param args The arguments for the contract call
-   * @param params Any additional parameters for the call
-   * @returns The typed transaction composer so you can fluently chain multiple calls or call execute to execute all queued up transactions
-   */
-  createEvent(params?: CallParams<TicketingAppArgs['obj']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64'] | TicketingAppArgs['tuple']['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64']>): TicketingAppComposer<[...TReturns, TicketingAppReturns['createEvent(string,string,string,uint64,uint64,string,string,string,string,string,string,string,uint64,uint64,string,uint64,uint64,address,address,string,string,uint64,string,string,uint64,uint64)uint64'] | undefined]>
 
   /**
    * Makes a clear_state call to an existing instance of the TicketingApp smart contract.
